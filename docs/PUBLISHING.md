@@ -23,25 +23,37 @@ This guide documents how to publish the Agentic Kit plugin to npm and Claude Cod
 
 ### Step-by-Step Process
 
-#### 1. Update Version
+[agentic-kit npx listing](https://www.npmjs.com/package/@amrhas82/agentic-kit)
 
-Use the version update script:
 
-```bash
-chmod +x UPDATE_VERSION.sh
-./UPDATE_VERSION.sh 1.2.0
-```
+#### 0. Publishing to npm
 
-This automatically updates version in:
-- package.json
-- All plugin manifests (.claude-plugin/*.json)
-- KNOWLEDGE_BASE.md
+- **npm page:** https://www.npmjs.com/package/@amrhas82/agentic-kit
 
-#### 2. Update CHANGELOG.md
+   ```bash
+cd ~/PycharmProjects/agentic-kit
 
-Add release notes for the new version in CHANGELOG.md.
+# Login to npm (if not already logged in)
+npm login
 
-#### 3. Login to npm
+# Publish package
+npm publish --access public
+
+After publishing, users will be able to:
+
+#via npx
+- npx @amrhas82/agentic-kit standard
+- npx @amrhas82/agentic-kit --variant=lite
+- npx @amrhas82/agentic-kit --variant=pro
+
+@ or shorter
+- npx agentic-kit standard
+- npx agentic-kit --variant=lite
+- npx agentic-kit --variant=pro
+
+   ```
+
+#### 1. Login to npm
 
 ```bash
 npm login
@@ -49,7 +61,7 @@ npm login
 
 Enter your npm credentials when prompted.
 
-#### 4. Validate Package
+#### 2. Validate Package
 
 Run the pre-publish validation script:
 
@@ -65,7 +77,7 @@ This checks:
 
 Fix any errors before proceeding.
 
-#### 5. Test Package Contents
+#### 3. Test Package Contents
 
 Preview what will be published:
 
@@ -75,16 +87,7 @@ npm pack --dry-run
 
 This shows all files that will be included in the package.
 
-#### 6. Commit and Tag
-
-```bash
-git add .
-git commit -m "Release v1.2.0"
-git tag v1.2.0
-git push origin main --tags
-```
-
-#### 7. Publish to npm
+#### 4. Publish to npm
 
 **For scoped packages, you MUST use `--access public`:**
 
@@ -92,7 +95,7 @@ git push origin main --tags
 npm publish --access public
 ```
 
-#### 8. Verify Publication
+#### 5. Verify Publication
 
 Check your package page:
 - https://www.npmjs.com/package/@amrhas82/agentic-kit
@@ -103,7 +106,7 @@ Test installation:
 # Test from outside the repo
 cd /tmp
 npx @amrhas82/agentic-kit --help
-npx agkit --variant=lite
+npx agentic-kit --variant=lite
 ```
 
 ### Common npm Publishing Errors
