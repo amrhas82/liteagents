@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.2.0] - 2025-11-04
+## [1.2.0] - 2025-11-05
 
 ### Added
 
@@ -39,6 +39,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Uninstall functionality (`--uninstall --tools=claude`)
 - Upgrade/downgrade between variants
 
+**Installation Reporting & Telemetry (Phase 9.2-9.3):**
+- `installer/report-template.js` - Comprehensive installation report generation
+  - Summary with success/failure status, variant, tool count, total files, installation time
+  - Detailed per-tool information (components, paths, verification status)
+  - System information (Node.js version, platform, architecture)
+  - Errors and warnings sections
+  - Reports saved to `~/.agentic-kit-install.log`
+- `installer/telemetry.js` - Anonymous usage statistics (opt-in only)
+  - User consent prompt with clear data collection policy
+  - `--no-telemetry` flag to disable telemetry
+  - Collects: variant, tool count, installation time, success/failure, OS type
+  - Does NOT collect: file paths, personal information, specific tool names
+  - Local storage only (not sent to servers)
+  - Easy opt-out via config file or command flag
+- `docs/PRIVACY.md` - Transparent privacy policy (250+ lines)
+  - Detailed explanation of data collection
+  - What we collect vs. what we don't collect
+  - How to manage consent and opt-out
+  - View and delete collected data
+
+**Security Hardening (Phase 9.4):**
+- `docs/SECURITY.md` - Comprehensive security documentation (380+ lines)
+  - Security principles and implemented measures
+  - Path traversal prevention with `PathManager.sanitizePath()`
+  - Symlink attack mitigation with real path resolution
+  - Input validation for all user inputs (tool names, variants, paths)
+  - File size limits (1MB max) to prevent DoS attacks
+  - Null byte detection in paths and file content
+  - Secure file permissions (0600) for sensitive files
+  - No command injection vulnerabilities (no shell execution of user input)
+- Enhanced `PathManager` with security checks:
+  - Validates paths are within home directory
+  - Checks for suspicious system directories
+  - Resolves and validates symlinks
+  - Prevents null byte injection
+- Enhanced `PackageManager` with JSON validation:
+  - File size limits before parsing
+  - Null byte detection
+  - Structure validation (must be object)
+  - Safe error handling
+
+**Legacy Migration Support (Phase 9.5):**
+- `docs/MIGRATION.md` - Complete migration guide (400+ lines)
+  - Automatic and manual migration procedures
+  - Variant classification from legacy installations
+  - Troubleshooting and rollback instructions
+  - FAQ and version compatibility matrix
+- `PathManager.detectLegacyInstallation()` - Automatic detection of pre-1.2.0 installations
+- `PathManager.countLegacyComponents()` - Component counting for variant classification
+- `PathManager.classifyVariantFromComponents()` - Smart variant classification
+- `PathManager.createManifestForLegacy()` - Manifest generation for legacy installations
+- Preserves user customizations during migration
+
 **Tool-Specific Packages:**
 - `packages/claude/` - Conversational AI optimization (markdown-first)
 - `packages/opencode/` - CLI-optimized code generation (terminal-first)
@@ -55,7 +108,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `tests/installer/integration.test.js` - 40 comprehensive integration tests
 - `tests/installer/path-confirmation.test.js` - 34 tests for path validation
 - `tests/installer/summary-display.test.js` - 13 tests for summary display
-- Total: 254 passing tests with zero failures
+- `tests/validation-test.js` - 9 core module validation tests (Phase 9.6)
+  - Package Manager, Path Manager, Installation Engine initialization
+  - Variant configuration loading
+  - Path sanitization and security (path traversal protection)
+  - Report generation, telemetry, legacy detection, state management
+- Total: 263 passing tests with zero failures
 - 100% validation success rate across all packages
 
 **Documentation:**
