@@ -32,7 +32,7 @@ Thumbs.db
 .temp/
 
 # PRD files
-*.tasks/
+/tasks/
 
 # Test temporary files and artifacts
 tests/tmp/
@@ -46,3 +46,4 @@ test-installation-*/
 *-test-opencode/
 *-test-ampcode/
 *-test-droid/
+/tasks/
