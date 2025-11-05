@@ -1,33 +1,55 @@
 {
   "lite": {
     "name": "Lite",
-    "description": "Minimal installation for basic mobile AI codegen with core coordination agents",
-    "useCase": "Users wanting to try Droid with minimal footprint and essential Android development workflow management",
-    "targetUsers": "Beginners, evaluators, users with limited system resources, developers new to mobile AI assistance",
+    "description": "Essential workflow agents with core document and debugging skills optimized for mobile development",
+    "useCase": "Users wanting comprehensive Android workflow management with essential document processing and debugging capabilities",
+    "targetUsers": "Beginners, evaluators, mobile developers wanting balanced features",
     "agents": [
-      "master",
-      "orchestrator",
-      "scrum-master"
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master"
     ],
-    "skills": [],
+    "skills": [
+      "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "systematic-debugging"
+    ],
     "resources": "*",
     "hooks": "*"
   },
   "standard": {
     "name": "Standard",
-    "description": "Balanced installation with all agents and essential document processing optimized for Android development",
-    "useCase": "Professional mobile development with comprehensive AI codegen plus core document creation for Android projects",
-    "targetUsers": "Professional Android developers, mobile development teams, Android Studio users",
-    "agents": "*",
+    "description": "Complete workflow and development team with enhanced testing and validation skills for Android development",
+    "useCase": "Professional mobile development with full team coordination, testing, and comprehensive skill set",
+    "targetUsers": "Professional Android developers, mobile development teams, quality-focused users",
+    "agents": [
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master",
+      "orchestrator",
+      "qa-test-architect",
+      "full-stack-dev",
+      "business-analyst",
+      "ux-expert"
+    ],
     "skills": [
-      "pdf",
       "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "webapp-testing",
       "xlsx",
-      "pptx",
-      "canvas-design",
-      "theme-factory",
-      "brand-guidelines",
-      "internal-comms"
+      "systematic-debugging",
+      "verification-before-completion",
+      "skill-creator"
     ],
     "resources": "*",
     "hooks": "*"

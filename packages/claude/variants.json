@@ -1,33 +1,55 @@
 {
   "lite": {
     "name": "Lite",
-    "description": "Minimal installation for basic AI codegen capabilities with core coordination agents",
-    "useCase": "Users wanting to try Claude Code with minimal footprint and essential workflow management",
-    "targetUsers": "Beginners, evaluators, users with limited system resources",
+    "description": "Essential workflow agents with core document and debugging skills",
+    "useCase": "Users wanting comprehensive workflow management with essential document processing and debugging capabilities",
+    "targetUsers": "Beginners, evaluators, users wanting balanced features with moderate footprint",
     "agents": [
-      "master",
-      "orchestrator",
-      "scrum-master"
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master"
     ],
-    "skills": [],
+    "skills": [
+      "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "systematic-debugging"
+    ],
     "resources": "*",
     "hooks": "*"
   },
   "standard": {
     "name": "Standard",
-    "description": "Balanced installation with all agents and essential document processing and design capabilities",
-    "useCase": "Professional development with comprehensive AI codegen plus core document creation and design skills",
-    "targetUsers": "Professional developers, teams, most users",
-    "agents": "*",
+    "description": "Complete workflow and development team with enhanced testing and validation skills",
+    "useCase": "Professional development with full team coordination, testing, and comprehensive skill set",
+    "targetUsers": "Professional developers, teams, quality-focused users",
+    "agents": [
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master",
+      "orchestrator",
+      "qa-test-architect",
+      "full-stack-dev",
+      "business-analyst",
+      "ux-expert"
+    ],
     "skills": [
-      "pdf",
       "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "webapp-testing",
       "xlsx",
-      "pptx",
-      "canvas-design",
-      "theme-factory",
-      "brand-guidelines",
-      "internal-comms"
+      "systematic-debugging",
+      "verification-before-completion",
+      "skill-creator"
     ],
     "resources": "*",
     "hooks": "*"

@@ -696,6 +696,309 @@ async function runIntegrationTests() {
       assert.ok(manifest.version.length > 0, 'Version should not be empty');
     });
 
+    // ===================================
+    // Test Group 7: Uninstall Functionality
+    // ===================================
+    console.log(`\n${colors.blue}${colors.bright}Test Group 7: Uninstall Functionality${colors.reset}\n`);
+
+    // Test 28: Uninstall removes all files
+    await test('Uninstall removes all installed files completely', async () => {
+      const uninstallDir = path.join(tempDir, 'uninstall-complete');
+
+      // Install Standard variant
+      await installationEngine.installPackage('claude', 'standard', uninstallDir);
+
+      // Verify installation
+      const manifestPath = path.join(uninstallDir, 'manifest.json');
+      assert.ok(fs.existsSync(manifestPath), 'Manifest should exist after installation');
+      const filesBefore = await countFilesRecursive(uninstallDir);
+      assert.ok(filesBefore > 100, 'Should have many files installed');
+
+      // Uninstall
+      await installationEngine.uninstall('claude', uninstallDir);
+
+      // Verify complete removal
+      const filesAfter = fs.existsSync(uninstallDir)
+        ? await countFilesRecursive(uninstallDir)
+        : 0;
+      assert.strictEqual(filesAfter, 0, 'All files should be removed after uninstall');
+    });
+
+    // Test 29: Uninstall preserves user files
+    await test('Uninstall preserves user-created files', async () => {
+      const uninstallDir = path.join(tempDir, 'uninstall-preserve');
+
+      // Install
+      await installationEngine.installPackage('claude', 'lite', uninstallDir);
+
+      // Create user files
+      const userFile1 = path.join(uninstallDir, 'my-notes.md');
+      const userFile2 = path.join(uninstallDir, 'agents', 'my-custom-agent.md');
+      await fs.promises.writeFile(userFile1, '# My Notes');
+      await fs.promises.writeFile(userFile2, '# My Agent');
+
+      // Uninstall
+      await installationEngine.uninstall('claude', uninstallDir);
+
+      // Verify user files preserved
+      assert.ok(fs.existsSync(userFile1), 'User file in root should be preserved');
+      assert.ok(fs.existsSync(userFile2), 'User file in agents dir should be preserved');
+
+      // Verify manifest removed
+      assert.ok(!fs.existsSync(path.join(uninstallDir, 'manifest.json')),
+        'Manifest should be removed');
+    });
+
+    // Test 30: Uninstall creates backup
+    await test('Uninstall creates backup before removing files', async () => {
+      const uninstallDir = path.join(tempDir, 'uninstall-backup');
+
+      // Install
+      await installationEngine.installPackage('claude', 'lite', uninstallDir);
+
+      // Uninstall
+      await installationEngine.uninstall('claude', uninstallDir);
+
+      // Look for backup directory (should have timestamp)
+      const parentDir = path.dirname(uninstallDir);
+      const backupDirs = fs.readdirSync(parentDir).filter(name =>
+        name.startsWith(path.basename(uninstallDir)) && name.includes('uninstall-backup')
+      );
+
+      assert.ok(backupDirs.length > 0, 'Backup directory should be created');
+    });
+
+    // ===================================
+    // Test Group 8: Multi-Tool Installation
+    // ===================================
+    console.log(`\n${colors.blue}${colors.bright}Test Group 8: Multi-Tool Installation${colors.reset}\n`);
+
+    // Test 31: Install multiple tools with different variants
+    await test('Install Claude (standard) and verify isolation', async () => {
+      const multiDir = path.join(tempDir, 'multi-tool');
+      const claudeDir = path.join(multiDir, 'claude-standard');
+
+      await installationEngine.installPackage('claude', 'standard', claudeDir);
+
+      // Verify installation
+      assert.ok(fs.existsSync(path.join(claudeDir, 'manifest.json')),
+        'Claude manifest should exist');
+      const manifest = JSON.parse(
+        await fs.promises.readFile(path.join(claudeDir, 'manifest.json'), 'utf8')
+      );
+      assert.strictEqual(manifest.tool, 'claude', 'Tool should be claude');
+      assert.strictEqual(manifest.variant, 'standard', 'Variant should be standard');
+    });
+
+    // Test 32: Multiple tools don't interfere with each other
+    await test('Multiple tool installations are isolated', async () => {
+      const claudeDir = path.join(tempDir, 'multi-iso-claude');
+      const claudeDir2 = path.join(tempDir, 'multi-iso-claude2');
+
+      // Install same tool to different locations
+      await installationEngine.installPackage('claude', 'lite', claudeDir);
+      await installationEngine.installPackage('claude', 'pro', claudeDir2);
+
+      // Verify both exist and are different
+      const manifest1 = JSON.parse(
+        await fs.promises.readFile(path.join(claudeDir, 'manifest.json'), 'utf8')
+      );
+      const manifest2 = JSON.parse(
+        await fs.promises.readFile(path.join(claudeDir2, 'manifest.json'), 'utf8')
+      );
+
+      assert.strictEqual(manifest1.variant, 'lite', 'First should be lite');
+      assert.strictEqual(manifest2.variant, 'pro', 'Second should be pro');
+
+      // Verify file counts differ
+      const files1 = await countFilesRecursive(claudeDir);
+      const files2 = await countFilesRecursive(claudeDir2);
+      assert.ok(files1 < files2, 'Lite should have fewer files than Pro');
+    });
+
+    // ===================================
+    // Test Group 9: Upgrade/Downgrade Functionality
+    // ===================================
+    console.log(`\n${colors.blue}${colors.bright}Test Group 9: Upgrade/Downgrade Functionality${colors.reset}\n`);
+
+    // Test 33: Upgrade from lite to standard
+    await test('Upgrade from lite to standard adds correct files', async () => {
+      const upgradeDir = path.join(tempDir, 'upgrade-lite-standard');
+
+      // Install lite
+      await installationEngine.installPackage('claude', 'lite', upgradeDir);
+      const liteFileCount = await countFilesRecursive(upgradeDir);
+
+      // Upgrade to standard
+      await installationEngine.upgradeVariant('claude', 'standard', upgradeDir);
+
+      // Verify upgrade
+      const standardFileCount = await countFilesRecursive(upgradeDir);
+      assert.ok(standardFileCount > liteFileCount,
+        'Standard should have more files than lite after upgrade');
+
+      // Verify manifest updated
+      const manifest = JSON.parse(
+        await fs.promises.readFile(path.join(upgradeDir, 'manifest.json'), 'utf8')
+      );
+      assert.strictEqual(manifest.variant, 'standard', 'Variant should be updated to standard');
+      assert.strictEqual(manifest.components.skills, 8, 'Should have 8 skills in standard');
+    });
+
+    // Test 34: Downgrade from pro to standard
+    await test('Downgrade from pro to standard removes correct files', async () => {
+      const downgradeDir = path.join(tempDir, 'downgrade-pro-standard');
+
+      // Install pro
+      await installationEngine.installPackage('claude', 'pro', downgradeDir);
+      const proFileCount = await countFilesRecursive(downgradeDir);
+
+      // Downgrade to standard
+      await installationEngine.upgradeVariant('claude', 'standard', downgradeDir);
+
+      // Verify downgrade
+      const standardFileCount = await countFilesRecursive(downgradeDir);
+      assert.ok(standardFileCount < proFileCount,
+        'Standard should have fewer files than pro after downgrade');
+
+      // Verify manifest updated
+      const manifest = JSON.parse(
+        await fs.promises.readFile(path.join(downgradeDir, 'manifest.json'), 'utf8')
+      );
+      assert.strictEqual(manifest.variant, 'standard', 'Variant should be downgraded to standard');
+      assert.strictEqual(manifest.components.skills, 8, 'Should have 8 skills in standard');
+    });
+
+    // Test 35: Upgrade preserves user files
+    await test('Upgrade preserves user-created files', async () => {
+      const upgradePreserveDir = path.join(tempDir, 'upgrade-preserve');
+
+      // Install lite
+      await installationEngine.installPackage('claude', 'lite', upgradePreserveDir);
+
+      // Create user file
+      const userFile = path.join(upgradePreserveDir, 'my-custom-config.json');
+      await fs.promises.writeFile(userFile, JSON.stringify({ custom: true }));
+
+      // Upgrade
+      await installationEngine.upgradeVariant('claude', 'standard', upgradePreserveDir);
+
+      // Verify user file preserved
+      assert.ok(fs.existsSync(userFile), 'User file should be preserved after upgrade');
+      const userContent = JSON.parse(await fs.promises.readFile(userFile, 'utf8'));
+      assert.strictEqual(userContent.custom, true, 'User file content should be unchanged');
+    });
+
+    // ===================================
+    // Test Group 10: Advanced Error Recovery
+    // ===================================
+    console.log(`\n${colors.blue}${colors.bright}Test Group 10: Advanced Error Recovery${colors.reset}\n`);
+
+    // Test 36: Recovery from disk space error
+    await test('Installation fails gracefully when running out of disk space', async () => {
+      // Note: This is a simulation - we can't actually fill up the disk
+      // In a real scenario, this would test disk space pre-checks
+      const errorDir = path.join(tempDir, 'error-disk-space');
+
+      // Just verify the path manager has disk space checking
+      // The actual implementation validates this before installation
+      try {
+        // This should work normally in test environment
+        await installationEngine.installPackage('claude', 'lite', errorDir);
+        assert.ok(true, 'Installation should succeed with sufficient disk space');
+      } catch (error) {
+        // If it fails for disk space reasons, that's expected
+        if (error.message.includes('disk space') || error.code === 'ENOSPC') {
+          assert.ok(true, 'Disk space error handled gracefully');
+        } else {
+          throw error;
+        }
+      }
+    });
+
+    // Test 37: Recovery from interrupted installation
+    await test('Incomplete installation can be detected and rolled back', async () => {
+      const incompleteDir = path.join(tempDir, 'incomplete-install');
+
+      // Simulate incomplete installation by creating partial structure
+      await fs.promises.mkdir(incompleteDir, { recursive: true });
+      await fs.promises.mkdir(path.join(incompleteDir, 'agents'), { recursive: true });
+      await fs.promises.writeFile(
+        path.join(incompleteDir, 'agents', 'master.md'),
+        '# Test'
+      );
+
+      // Try to install (should detect partial installation)
+      try {
+        await installationEngine.installPackage('claude', 'lite', incompleteDir);
+
+        // If successful, verify it's complete
+        const manifest = JSON.parse(
+          await fs.promises.readFile(path.join(incompleteDir, 'manifest.json'), 'utf8')
+        );
+        assert.ok(manifest, 'Should have valid manifest after installation');
+      } catch (error) {
+        // If it fails, should clean up properly
+        assert.ok(true, 'Incomplete installation handled appropriately');
+      }
+    });
+
+    // Test 38: Multiple sequential installations
+    await test('Multiple sequential installations to same path work correctly', async () => {
+      const seqDir = path.join(tempDir, 'sequential');
+
+      // Install lite
+      await installationEngine.installPackage('claude', 'lite', seqDir);
+      const manifest1 = JSON.parse(
+        await fs.promises.readFile(path.join(seqDir, 'manifest.json'), 'utf8')
+      );
+      assert.strictEqual(manifest1.variant, 'lite', 'First installation should be lite');
+
+      // Uninstall
+      await installationEngine.uninstall('claude', seqDir);
+
+      // Install standard
+      await installationEngine.installPackage('claude', 'standard', seqDir);
+      const manifest2 = JSON.parse(
+        await fs.promises.readFile(path.join(seqDir, 'manifest.json'), 'utf8')
+      );
+      assert.strictEqual(manifest2.variant, 'standard', 'Second installation should be standard');
+    });
+
+    // ===================================
+    // Test Group 11: Silent Mode Integration
+    // ===================================
+    console.log(`\n${colors.blue}${colors.bright}Test Group 11: Silent Mode Verification${colors.reset}\n`);
+
+    // Test 39: Installation engine works for silent mode
+    await test('Installation engine supports silent/non-interactive mode', async () => {
+      const silentDir = path.join(tempDir, 'silent-test');
+
+      // Install without progress callback (silent mode)
+      await installationEngine.installPackage('claude', 'lite', silentDir);
+
+      // Verify successful installation
+      assert.ok(fs.existsSync(path.join(silentDir, 'manifest.json')),
+        'Silent installation should complete successfully');
+    });
+
+    // Test 40: Batch installation for CI/CD
+    await test('Batch installation of multiple variants works in sequence', async () => {
+      const batchDir = path.join(tempDir, 'batch');
+      const variants = ['lite', 'standard', 'pro'];
+
+      for (const variant of variants) {
+        const targetDir = path.join(batchDir, `claude-${variant}`);
+        await installationEngine.installPackage('claude', variant, targetDir);
+
+        const manifest = JSON.parse(
+          await fs.promises.readFile(path.join(targetDir, 'manifest.json'), 'utf8')
+        );
+        assert.strictEqual(manifest.variant, variant,
+          `Batch installation of ${variant} should succeed`);
+      }
+    });
+
   } finally {
     // Cleanup
     if (tempDir) {

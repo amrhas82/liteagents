@@ -1,33 +1,55 @@
 {
   "lite": {
     "name": "Lite",
-    "description": "Minimal installation for basic CLI-based AI codegen with core coordination agents",
-    "useCase": "Users wanting to try Opencode with minimal footprint and essential command-line workflow management",
-    "targetUsers": "Beginners, evaluators, users with limited system resources, terminal-focused developers",
+    "description": "Essential workflow agents with core document and debugging skills optimized for CLI",
+    "useCase": "Users wanting comprehensive CLI workflow management with essential document processing and debugging capabilities",
+    "targetUsers": "Beginners, evaluators, terminal-focused developers wanting balanced features",
     "agents": [
-      "master",
-      "orchestrator",
-      "scrum-master"
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master"
     ],
-    "skills": [],
+    "skills": [
+      "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "systematic-debugging"
+    ],
     "resources": "*",
     "hooks": "*"
   },
   "standard": {
     "name": "Standard",
-    "description": "Balanced installation with all agents and essential document processing optimized for CLI workflows",
-    "useCase": "Professional terminal-based development with comprehensive AI codegen plus core document creation skills",
-    "targetUsers": "Professional developers, CLI power users, teams preferring command-line tools",
-    "agents": "*",
+    "description": "Complete workflow and development team with enhanced testing and validation skills for CLI workflows",
+    "useCase": "Professional terminal-based development with full team coordination, testing, and comprehensive skill set",
+    "targetUsers": "Professional CLI developers, teams, quality-focused terminal users",
+    "agents": [
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master",
+      "orchestrator",
+      "qa-test-architect",
+      "full-stack-dev",
+      "business-analyst",
+      "ux-expert"
+    ],
     "skills": [
-      "pdf",
       "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "webapp-testing",
       "xlsx",
-      "pptx",
-      "canvas-design",
-      "theme-factory",
-      "brand-guidelines",
-      "internal-comms"
+      "systematic-debugging",
+      "verification-before-completion",
+      "skill-creator"
     ],
     "resources": "*",
     "hooks": "*"

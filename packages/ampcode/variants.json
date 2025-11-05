@@ -1,33 +1,55 @@
 {
   "lite": {
     "name": "Lite",
-    "description": "Minimal installation for basic amplified AI codegen with core coordination agents",
-    "useCase": "Users wanting to try Ampcode with minimal footprint and essential accelerated workflow management",
-    "targetUsers": "Beginners, evaluators, users with limited system resources, developers new to amplified workflows",
+    "description": "Essential workflow agents with core document and debugging skills optimized for amplified development",
+    "useCase": "Users wanting comprehensive amplified workflow management with essential document processing and debugging capabilities",
+    "targetUsers": "Beginners, evaluators, developers wanting balanced features with amplified productivity",
     "agents": [
-      "master",
-      "orchestrator",
-      "scrum-master"
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master"
     ],
-    "skills": [],
+    "skills": [
+      "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "systematic-debugging"
+    ],
     "resources": "*",
     "hooks": "*"
   },
   "standard": {
     "name": "Standard",
-    "description": "Balanced installation with all agents and essential document processing optimized for amplified development",
-    "useCase": "Professional accelerated development with comprehensive AI codegen plus core automation and document creation",
-    "targetUsers": "Professional developers, teams focused on velocity, users seeking amplified productivity",
-    "agents": "*",
+    "description": "Complete workflow and development team with enhanced testing and validation skills for amplified development",
+    "useCase": "Professional accelerated development with full team coordination, testing, and comprehensive skill set",
+    "targetUsers": "Professional developers, teams focused on velocity, quality-focused users",
+    "agents": [
+      "1-create-prd",
+      "2-generate-tasks",
+      "3-process-task-list",
+      "master",
+      "orchestrator",
+      "qa-test-architect",
+      "full-stack-dev",
+      "business-analyst",
+      "ux-expert"
+    ],
     "skills": [
-      "pdf",
       "docx",
+      "pdf",
+      "code-review",
+      "brainstorming",
+      "root-cause-tracing",
+      "mcp-builder",
+      "webapp-testing",
       "xlsx",
-      "pptx",
-      "canvas-design",
-      "theme-factory",
-      "brand-guidelines",
-      "internal-comms"
+      "systematic-debugging",
+      "verification-before-completion",
+      "skill-creator"
     ],
     "resources": "*",
     "hooks": "*"

@@ -106,7 +106,8 @@ class InteractiveInstaller {
       paths: {},
       silent: false,
       nonInteractive: false,
-      config: null
+      config: null,
+      noTelemetry: false
     };
 
     for (let i = 0; i < args.length; i++) {
@@ -132,6 +133,8 @@ class InteractiveInstaller {
         parsed.nonInteractive = true;
       } else if (arg === '--config') {
         parsed.config = args[++i];
+      } else if (arg === '--no-telemetry') {
+        parsed.noTelemetry = true;
       }
     }
 
@@ -181,6 +184,11 @@ ${colors.bright}OPTIONS:${colors.reset}
   ${colors.green}--config <file>${colors.reset}
       Load configuration from JSON file
       Example: node installer/cli.js --config install-config.json
+
+  ${colors.green}--no-telemetry${colors.reset}
+      Disable anonymous usage statistics collection
+      Example: node installer/cli.js --no-telemetry
+      See docs/PRIVACY.md for details
 
 ${colors.bright}TOOLS:${colors.reset}
   ${colors.cyan}claude${colors.reset}     - Claude Code (AI-powered development assistant)
@@ -247,6 +255,9 @@ ${colors.bright}For more information, visit:${colors.reset}
 
       // Interactive mode
       this.showWelcome();
+
+      // Prompt for telemetry consent (first-time only)
+      await this.promptTelemetryConsent();
 
       // Check for interrupted installation
       const InstallationEngine = require('./installation-engine');
@@ -376,6 +387,7 @@ ${colors.bright}For more information, visit:${colors.reset}
       const result = await installationEngine.uninstall(
         toolId,
         targetPath,
+        null, // confirmCallback (already confirmed above)
         (progress) => {
           // Display progress
           const percentage = Math.round((progress.filesRemoved / progress.totalFiles) * 100);
@@ -1859,6 +1871,15 @@ ${colors.yellow}Press Enter to begin or Ctrl+C to exit${colors.reset}
       console.log(`\n${colors.yellow}Installation state preserved for resume capability${colors.reset}`);
       console.log(`${colors.yellow}Run the installer again to retry failed tools${colors.reset}`);
     }
+
+    // Collect telemetry data (if user has consented)
+    await this.collectInstallationTelemetry(
+      failedInstalls.length === 0,
+      this.selections.tools.length,
+      failedInstalls.length,
+      0, // warnings are tracked in verification
+      totalElapsedMs
+    );
   }
 
   /**
@@ -2019,99 +2040,182 @@ ${colors.yellow}Press Enter to begin or Ctrl+C to exit${colors.reset}
    * @param {number} totalElapsedMs - Total elapsed time in milliseconds
    */
   async generateInstallationReport(successfulInstalls, failedInstalls, verificationResults, totalElapsedMs) {
-    const os = require('os');
-    const reportPath = path.join(os.homedir(), '.agentic-kit-install.log');
+    const ReportTemplate = require('./report-template');
+    const reportTemplate = new ReportTemplate();
 
-    const timestamp = new Date().toISOString();
-    const totalElapsedSec = Math.floor(totalElapsedMs / 1000);
-    const totalElapsedMin = Math.floor(totalElapsedSec / 60);
-    const totalElapsedSecRemainder = totalElapsedSec % 60;
-    const totalElapsedFormatted = `${totalElapsedMin}:${totalElapsedSecRemainder.toString().padStart(2, '0')}`;
+    // Prepare installation data for the report template
+    const startTime = Date.now() - totalElapsedMs;
+    const endTime = Date.now();
 
-    // Build report content
-    let report = '';
-    report += '='.repeat(80) + '\n';
-    report += 'Agentic Kit Installation Report\n';
-    report += '='.repeat(80) + '\n';
-    report += `Timestamp: ${timestamp}\n`;
-    report += `Variant: ${this.selections.variant}\n`;
-    report += `Total Time: ${totalElapsedFormatted}\n`;
-    report += `Total Tools: ${this.selections.tools.length}\n`;
-    report += `Successful: ${successfulInstalls.length}\n`;
-    report += `Failed: ${failedInstalls.length}\n`;
-    report += '\n';
+    // Build tools array with complete information
+    const tools = [];
+    const allErrors = [];
+    const allWarnings = [];
 
-    // Successful installations
-    if (successfulInstalls.length > 0) {
-      report += '-'.repeat(80) + '\n';
-      report += 'Successful Installations\n';
-      report += '-'.repeat(80) + '\n';
+    // Process successful installations
+    for (let i = 0; i < successfulInstalls.length; i++) {
+      const install = successfulInstalls[i];
+      const verification = verificationResults[i];
 
-      for (let i = 0; i < successfulInstalls.length; i++) {
-        const install = successfulInstalls[i];
-        const verification = verificationResults[i];
+      // Get package size information
+      let sizeBytes = 0;
+      try {
+        const sizeInfo = await this.packageManager.getPackageSize(install.toolId, this.selections.variant);
+        sizeBytes = sizeInfo.bytes || 0;
+      } catch (error) {
+        // If we can't get size, estimate based on file count (rough estimate: 15KB per file)
+        sizeBytes = install.fileCount * 15 * 1024;
+      }
 
-        report += `\n[${i + 1}] ${install.name}\n`;
-        report += `    Tool ID: ${install.toolId}\n`;
-        report += `    Path: ${install.path}\n`;
-        report += `    Files Installed: ${install.fileCount}\n`;
+      // Get manifest path
+      const manifestPath = path.join(install.path, 'manifest.json');
 
-        if (verification) {
-          report += `    Verification: ${verification.valid ? 'PASSED' : 'FAILED'}\n`;
+      tools.push({
+        toolId: install.toolId,
+        path: install.path,
+        filesInstalled: install.fileCount,
+        sizeBytes: sizeBytes,
+        components: verification && verification.components ? {
+          agents: verification.components.agents.found,
+          skills: verification.components.skills.found,
+          resources: verification.components.resources.found,
+          hooks: verification.components.hooks.found
+        } : {},
+        verified: verification ? verification.valid : false,
+        verificationStatus: verification && verification.valid ? 'All components verified successfully' : 'Verification completed with issues',
+        manifestPath: manifestPath
+      });
 
-          if (verification.components) {
-            const c = verification.components;
-            report += `    Components:\n`;
-            report += `      - Agents: ${c.agents.found}/${c.agents.expected}\n`;
-            report += `      - Skills: ${c.skills.found}/${c.skills.expected}\n`;
-            report += `      - Resources: ${c.resources.found}/${c.resources.expected}\n`;
-            report += `      - Hooks: ${c.hooks.found}/${c.hooks.expected}\n`;
-          }
+      // Collect warnings from verification
+      if (verification && verification.warnings && verification.warnings.length > 0) {
+        verification.warnings.forEach(warning => {
+          allWarnings.push(`[${install.toolId}] ${warning.message}`);
+        });
+      }
 
-          if (verification.issues && verification.issues.length > 0) {
-            report += `    Issues:\n`;
-            for (const issue of verification.issues) {
-              report += `      - ${issue.message}\n`;
-            }
-          }
-
-          if (verification.warnings && verification.warnings.length > 0) {
-            report += `    Warnings:\n`;
-            for (const warning of verification.warnings) {
-              report += `      - ${warning.message}\n`;
-            }
-          }
-        }
+      // Collect issues from verification as errors
+      if (verification && verification.issues && verification.issues.length > 0) {
+        verification.issues.forEach(issue => {
+          allErrors.push(`[${install.toolId}] ${issue.message}`);
+        });
       }
     }
 
-    // Failed installations
-    if (failedInstalls.length > 0) {
-      report += '\n';
-      report += '-'.repeat(80) + '\n';
-      report += 'Failed Installations\n';
-      report += '-'.repeat(80) + '\n';
-
-      for (let i = 0; i < failedInstalls.length; i++) {
-        const install = failedInstalls[i];
-        report += `\n[${i + 1}] ${install.name}\n`;
-        report += `    Tool ID: ${install.toolId}\n`;
-        report += `    Path: ${install.path}\n`;
-        report += `    Error: ${install.error}\n`;
-      }
+    // Process failed installations
+    for (const install of failedInstalls) {
+      allErrors.push(`[${install.toolId}] Installation failed: ${install.error}`);
     }
 
-    report += '\n';
-    report += '='.repeat(80) + '\n';
-    report += 'End of Report\n';
-    report += '='.repeat(80) + '\n';
+    // Build installation data object
+    const installationData = {
+      variant: this.selections.variant,
+      tools: tools,
+      startTime: startTime,
+      endTime: endTime,
+      success: failedInstalls.length === 0,
+      errors: allErrors,
+      warnings: allWarnings
+    };
 
-    // Append to log file
+    // Generate and save report using ReportTemplate
     try {
-      await fs.promises.appendFile(reportPath, report);
+      const reportPath = await reportTemplate.createAndSaveReport(installationData);
       console.log(`\n${colors.cyan}Installation report saved to:${colors.reset} ${reportPath}`);
     } catch (error) {
       console.warn(`${colors.yellow}Warning: Could not save installation report: ${error.message}${colors.reset}`);
+    }
+  }
+
+  /**
+   * Prompt user for telemetry consent
+   * Only prompts if consent hasn't been set before and --no-telemetry flag not present
+   *
+   * @returns {Promise<void>}
+   */
+  async promptTelemetryConsent() {
+    // Skip if --no-telemetry flag is present
+    if (this.cliArgs.noTelemetry) {
+      return;
+    }
+
+    // Skip if in silent mode
+    if (this.cliArgs.silent) {
+      return;
+    }
+
+    const Telemetry = require('./telemetry');
+    const telemetry = new Telemetry();
+
+    // Check if user has already made a decision
+    const hasConsent = await telemetry.hasConsent();
+    const hasOptedOut = await telemetry.hasOptedOut();
+
+    // Only prompt if user hasn't decided yet
+    if (!hasConsent && !hasOptedOut) {
+      console.log(`\n${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}`);
+      console.log(`${colors.bright}Help Improve Agentic Kit${colors.reset}\n`);
+      console.log('Would you like to share anonymous usage statistics to help improve agentic-kit?');
+      console.log('\nData collected:');
+      console.log('  • Package variant selected (lite/standard/pro)');
+      console.log('  • Number of tools installed');
+      console.log('  • Installation time and success status');
+      console.log('  • Operating system type');
+      console.log('  • Node.js version');
+      console.log('\nData NOT collected:');
+      console.log('  • File paths or directory locations');
+      console.log('  • Personal information');
+      console.log('  • Specific tool names');
+      console.log('  • Any identifying information');
+      console.log('\nYou can change this setting later or opt-out anytime.');
+      console.log(`For details, see: ${colors.cyan}docs/PRIVACY.md${colors.reset}`);
+      console.log(`${colors.cyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${colors.reset}\n`);
+
+      const answer = await this.askQuestion(
+        `${colors.bright}Share anonymous usage data? (y/N):${colors.reset} `,
+        'N'
+      );
+
+      const consent = answer.toLowerCase() === 'y';
+      await telemetry.setConsent(consent);
+
+      if (consent) {
+        console.log(`${colors.green}✓ Thank you! Anonymous usage statistics enabled${colors.reset}\n`);
+      } else {
+        console.log(`${colors.yellow}Usage statistics disabled${colors.reset}\n`);
+      }
+    }
+  }
+
+  /**
+   * Collect and send telemetry data for installation
+   *
+   * @param {boolean} success - Installation success status
+   * @param {number} toolCount - Number of tools installed
+   * @param {number} errorCount - Number of errors encountered
+   * @param {number} warningCount - Number of warnings encountered
+   * @param {number} installationTime - Installation time in milliseconds
+   * @returns {Promise<void>}
+   */
+  async collectInstallationTelemetry(success, toolCount, errorCount, warningCount, installationTime) {
+    // Skip if --no-telemetry flag is present
+    if (this.cliArgs.noTelemetry) {
+      return;
+    }
+
+    const Telemetry = require('./telemetry');
+    const telemetry = new Telemetry();
+
+    try {
+      await telemetry.collectInstallationStats({
+        variant: this.selections.variant,
+        toolCount: toolCount,
+        installationTime: installationTime,
+        success: success,
+        errorCount: errorCount,
+        warningCount: warningCount
+      });
+    } catch (error) {
+      // Silently fail - don't interrupt user experience for telemetry issues
     }
   }
 }
