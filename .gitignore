@@ -31,6 +31,9 @@ Thumbs.db
 *.tmp
 .temp/
 
+# PRD files
+*.tasks/
+
 # Test temporary files and artifacts
 tests/tmp/
 tests/**/*.log
