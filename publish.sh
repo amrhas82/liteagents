@@ -17,8 +17,16 @@ if [ -z "$GITHUB_TOKEN" ]; then
     if command -v pass &> /dev/null; then
         echo "🔑 Attempting to retrieve token from pass..."
         if pass show amr/github &> /dev/null; then
-            export GITHUB_TOKEN=$(pass show amr/github)
-            echo "✓ Token retrieved from pass (amr/github)"
+            # Extract token from notes (looks for "token: ghp_xxxxx")
+            PASS_OUTPUT=$(pass show amr/github)
+            if echo "$PASS_OUTPUT" | grep -q "^token:"; then
+                export GITHUB_TOKEN=$(echo "$PASS_OUTPUT" | grep "^token:" | cut -d' ' -f2)
+                echo "✓ Token extracted from pass notes (amr/github)"
+            else
+                # Fallback: use first line (password field)
+                export GITHUB_TOKEN=$(echo "$PASS_OUTPUT" | head -n1)
+                echo "✓ Token retrieved from pass password field (amr/github)"
+            fi
             GITHUB_ONLY=true
         else
             echo "⚠️  Token not found in pass at amr/github"
