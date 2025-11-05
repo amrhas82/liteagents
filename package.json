@@ -1,15 +1,19 @@
 {
   "name": "@amrhas82/agentic-kit",
-  "version": "1.1.0",
-  "description": "Comprehensive toolkit for AI-driven software development with 13 specialized agents and 14 powerful skills. Available in 3 variants: Lite (3 agents, no skills), Standard (13 agents, 8 skills), Pro (13 agents, 14 skills)",
+  "version": "1.2.0",
+  "description": "Comprehensive toolkit for AI-driven software development with 13 specialized agents and 22 powerful skills. Interactive multi-tool installer supports Claude, Opencode, Ampcode, and Droid. Available in 3 variants: Lite (3 agents, 510 KB), Standard (13 agents, 8 skills, 8.4 MB), Pro (13 agents, 22 skills, 9 MB)",
   "main": "index.js",
   "bin": {
-    "agentic-kit": "./cli.js",
+    "agentic-kit": "./installer/cli.js",
     "agkit": "./cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node tests/run-all-tests.js",
+    "test-installer": "node tests/installer/integration.test.js",
+    "install-interactive": "node installer/cli.js",
+    "uninstall-tool": "node installer/cli.js --uninstall",
     "validate": "node ./validate-package.js",
+    "validate-packages": "node scripts/validate-all-packages.js",
     "prepublishOnly": "npm run validate",
     "publish:npm": "npm publish --registry https://registry.npmjs.org --access public",
     "publish:github": "npm publish --registry https://npm.pkg.github.com",
@@ -18,7 +22,13 @@
   "keywords": [
     "claude",
     "claude-code",
+    "opencode",
+    "ampcode",
+    "droid",
     "plugin",
+    "installer",
+    "interactive-installer",
+    "multi-tool",
     "ai-agents",
     "software-development",
     "agile",
@@ -30,7 +40,9 @@
     "docx",
     "xlsx",
     "pptx",
-    "document-generation"
+    "document-generation",
+    "cli",
+    "variant-system"
   ],
   "author": "amrhas82 <avoidaccess@msn.com>",
   "license": "MIT",
@@ -55,13 +67,20 @@
     "skills/",
     "hooks/",
     "resources/",
+    "installer/",
+    "packages/",
+    "tests/",
+    "scripts/",
+    "docs/",
     "cli.js",
     "index.js",
     "README.md",
     "QUICK-START.md",
     "VARIANTS.md",
     "TROUBLESHOOTING.md",
-    "validate-references.sh"
+    "CHANGELOG.md",
+    "validate-references.sh",
+    "validate-package.js"
   ],
   "dependencies": {},
   "devDependencies": {}

@@ -246,6 +246,71 @@ npx agkit --variant=pro
 
 ---
 
+## 📦 npm Scripts
+
+Agentic Kit includes several npm scripts for common operations:
+
+### Installation Scripts
+
+```bash
+# Run interactive installer
+npm run install-interactive
+
+# Uninstall a tool
+npm run uninstall-tool
+```
+
+### Testing Scripts
+
+```bash
+# Run all tests
+npm test
+
+# Run installer tests only
+npm run test-installer
+```
+
+### Validation Scripts
+
+```bash
+# Validate package structure
+npm run validate
+
+# Validate all tool packages
+npm run validate-packages
+```
+
+### Publishing Scripts
+
+```bash
+# Publish to npm
+npm run publish:npm
+
+# Publish to GitHub packages
+npm run publish:github
+
+# Publish to both registries
+npm run publish:both
+```
+
+**CLI Commands** (after global install):
+
+```bash
+# Install agents and skills
+agentic-kit install
+
+# Install with options
+agentic-kit install --variant=standard --tools=claude
+
+# Uninstall
+agentic-kit install --uninstall --tools=claude
+
+# Help
+agentic-kit install --help
+```
+
+---
+
 ## 🤝 Contributing
 
 We welcome contributions! See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
