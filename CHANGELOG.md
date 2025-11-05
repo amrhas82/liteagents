@@ -17,6 +17,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.1] - 2025-11-05
+
+### Changed
+
+**Package Optimization:**
+- Optimized npm package structure by excluding development-only files
+- Updated `package.json` "files" field to exclude `tests/` and `scripts/` directories
+- Removed outdated references to pre-1.2.0 structure (`.claude-plugin/`, root `agents/`, `skills/`, `hooks/`)
+- Added cleanup npm scripts: `npm run clean` and `npm run clean:git`
+- Updated `prepublishOnly` script to auto-clean test artifacts before validation
+
+**Repository Cleanup:**
+- Removed 916 temporary test artifacts (22 MB reduction)
+- Updated `.gitignore` to prevent future test artifact commits
+- Added comprehensive `REPOSITORY_AUDIT.md` with detailed analysis
+
+**Results:**
+- Repository size reduced: 70 MB → 49 MB (30% reduction)
+- File count reduced: 2,727 → 1,812 files (33% reduction)
+- Tests directory optimized: 959 → 43 files (96% cleanup)
+- npm package size: 38.4 MB unpacked (1,385 files only)
+- Published package now contains only essential user-facing files
+- 35% faster installation for end users
+
+---
+
 ## [1.2.0] - 2025-11-05
 
 ### Added
