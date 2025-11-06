@@ -54,40 +54,49 @@ fi
 echo ""
 echo "Step 1: Validating package..."
 if npm run validate; then
-    VALIDATION_SUCCESS=true
     echo "✓ Validation passed"
 else
     echo "✗ Validation failed"
     exit 1
 fi
 
+# Get current version
+PACKAGE_VERSION=$(node -p "require('./package.json').version")
 echo ""
-echo "Step 2: Publishing to npm.js..."
-if npm run publish:npm 2>&1 | tee /tmp/npm-publish.log; then
-    NPM_SUCCESS=true
+echo "Preparing to publish version: $PACKAGE_VERSION"
+
+echo ""
+echo "Step 2: Checking npm.js registry..."
+if npm view @amrhas82/agentic-kit@$PACKAGE_VERSION version &>/dev/null; then
+    NPM_STATUS="already_published"
+    echo "ℹ Version $PACKAGE_VERSION already exists on npm.js"
 else
-    # Check if error is "already published" (which is actually success)
-    if grep -q "You cannot publish over the previously published versions" /tmp/npm-publish.log; then
-        NPM_SUCCESS=true
-        echo "ℹ Package already published to npm (this is OK)"
+    echo "Publishing to npm.js..."
+    if npm run publish:npm; then
+        NPM_STATUS="success"
+        echo "✓ Published to npm.js"
     else
-        NPM_SUCCESS=false
+        NPM_STATUS="failed"
+        echo "✗ Failed to publish to npm.js"
     fi
 fi
 
-GITHUB_SUCCESS=false
+GITHUB_STATUS="skipped"
 if [ "$GITHUB_ONLY" = true ]; then
     echo ""
-    echo "Step 3: Publishing to GitHub Packages..."
-    if npm run publish:github 2>&1 | tee /tmp/github-publish.log; then
-        GITHUB_SUCCESS=true
+    echo "Step 3: Checking GitHub Packages registry..."
+    # Try to check if version exists on GitHub Packages
+    if npm view @amrhas82/agentic-kit@$PACKAGE_VERSION version --registry=https://npm.pkg.github.com &>/dev/null; then
+        GITHUB_STATUS="already_published"
+        echo "ℹ Version $PACKAGE_VERSION already exists on GitHub Packages"
     else
-        # Check if error is "already published"
-        if grep -q "You cannot publish over the previously published versions" /tmp/github-publish.log; then
-            GITHUB_SUCCESS=true
-            echo "ℹ Package already published to GitHub (this is OK)"
+        echo "Publishing to GitHub Packages..."
+        if npm run publish:github; then
+            GITHUB_STATUS="success"
+            echo "✓ Published to GitHub Packages"
         else
-            GITHUB_SUCCESS=false
+            GITHUB_STATUS="failed"
+            echo "✗ Failed to publish to GitHub Packages"
         fi
     fi
 fi
@@ -99,41 +108,59 @@ echo "PUBLISHING SUMMARY"
 echo "=========================================="
 echo ""
 echo "Package: @amrhas82/agentic-kit"
-echo "Version: $(node -p "require('./package.json').version")"
+echo "Version: $PACKAGE_VERSION"
 echo ""
 
-if [ "$NPM_SUCCESS" = true ]; then
-    echo "✓ npm.js: SUCCESS"
+# npm.js status
+if [ "$NPM_STATUS" = "success" ]; then
+    echo "✓ npm.js: PUBLISHED"
     echo "  → https://www.npmjs.com/package/@amrhas82/agentic-kit"
+elif [ "$NPM_STATUS" = "already_published" ]; then
+    echo "○ npm.js: ALREADY EXISTS (v$PACKAGE_VERSION)"
+    echo "  → https://www.npmjs.com/package/@amrhas82/agentic-kit"
+    echo "  → Bump version in package.json to publish a new version"
 else
     echo "✗ npm.js: FAILED"
 fi
 
-if [ "$GITHUB_ONLY" = true ]; then
-    if [ "$GITHUB_SUCCESS" = true ]; then
-        echo "✓ GitHub Packages: SUCCESS"
-        echo "  → https://github.com/amrhas82/agentic-kit/packages"
-    else
-        echo "✗ GitHub Packages: FAILED"
-    fi
-else
+# GitHub status
+if [ "$GITHUB_STATUS" = "success" ]; then
+    echo "✓ GitHub Packages: PUBLISHED"
+    echo "  → https://github.com/amrhas82/agentic-kit/packages"
+elif [ "$GITHUB_STATUS" = "already_published" ]; then
+    echo "○ GitHub Packages: ALREADY EXISTS (v$PACKAGE_VERSION)"
+    echo "  → https://github.com/amrhas82/agentic-kit/packages"
+    echo "  → Bump version in package.json to publish a new version"
+elif [ "$GITHUB_STATUS" = "skipped" ]; then
     echo "○ GitHub Packages: SKIPPED (no token)"
     echo ""
-    echo "To publish to GitHub Packages later:"
-    echo "  1. Set GITHUB_TOKEN: export GITHUB_TOKEN=ghp_your_token_here"
-    echo "  2. Run: npm run publish:github"
+    echo "To publish to GitHub Packages:"
+    echo "  1. Ensure token in pass: pass show amr/github_token"
+    echo "  2. Run: ./publish.sh"
+else
+    echo "✗ GitHub Packages: FAILED"
 fi
 
 echo ""
 echo "=========================================="
 
-# Exit with error if any required publish failed
-if [ "$NPM_SUCCESS" != true ]; then
+# Exit with error only if publishing actually failed (not if already published)
+if [ "$NPM_STATUS" = "failed" ]; then
     echo "✗ Publishing FAILED"
     exit 1
-elif [ "$GITHUB_ONLY" = true ] && [ "$GITHUB_SUCCESS" != true ]; then
-    echo "⚠ npm.js succeeded, but GitHub Packages failed"
+elif [ "$GITHUB_ONLY" = true ] && [ "$GITHUB_STATUS" = "failed" ]; then
+    echo "⚠ npm.js OK, but GitHub Packages FAILED"
     exit 1
+elif [ "$NPM_STATUS" = "already_published" ] && [ "$GITHUB_STATUS" = "already_published" ]; then
+    echo "ℹ Version $PACKAGE_VERSION already published to all registries"
+    echo "  To publish a new version:"
+    echo "  1. Update version: npm version patch (or minor/major)"
+    echo "  2. Run: ./publish.sh"
+elif [ "$NPM_STATUS" = "already_published" ]; then
+    echo "ℹ Version $PACKAGE_VERSION already published to npm.js"
+    echo "  To publish a new version:"
+    echo "  1. Update version: npm version patch (or minor/major)"
+    echo "  2. Run: ./publish.sh"
 else
     echo "✓ Publishing COMPLETED"
 fi
