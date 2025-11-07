@@ -45,11 +45,11 @@ agentic-kit install --silent --variant=standard --tools=claude
 
 ### Variants
 
-| Variant | Agents | Skills | Size | Best For |
-|---------|--------|--------|------|----------|
-| **Lite** | 3 | 0 | 510 KB | Minimal setup, CI/CD, testing |
-| **Standard** ⭐ | 13 | 8 | 8.4 MB | Most users, document processing |
-| **Pro** | 13 | 22 | 9 MB | Advanced users, full features |
+ | Variant | Agents | Skills | Size | Best For |                                                            
+ |---------|--------|--------|------|----------|                                                            
+ | **Lite** | 4 (1-create-prd, 2-generate-tasks, 3-process-task-list, master) | 8 (docx, pdf, code-review, brainstorming, root-cause-tracing, mcp-builder, systematic-debugging, skill-creator) | 510 KB | Minimal setup, CI/CD,testing                                                                                     
+ | **Standard** ⭐ | 9 (Lite + orchestrator, qa-test-architect, full-stack-dev, business-analyst, ux-expert ) | 12 (Lite + webapp-testing, xlsx, verification-before-completion) | 8.4 MB | Most users, document processing|                                                                                             
+ | **Pro** | 13 (Standard + product-manager, product-owner, scrum-master, holistic-architect) | 22 (Standard + pptx, theme-factory, brand-guidelines, internal-comms, canvas-design, artifacts-builder, algorithmic-art, test-driven-development, testing-anti-patterns, condition-based-waiting, slack-gif-creator) | 9 MB | Advanced users, full features|                                                                    
 
 ### Supported Tools
 

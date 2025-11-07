@@ -2,12 +2,11 @@
 name: 3-process-task-list
 description: Manages implementation progress using markdown task lists with strict sequential execution, test-first workflow, and commit management. Use when user wants to implement a PRD systematically, has completed subtasks needing tracking, wants to continue work on an existing task list, or needs task list updates with proper test/commit workflow.
 mode: subagent
-model: inherit
 temperature: 0.2
 tools:
-  write: false
-  edit: false
-  bash: false
+  write: true
+  edit: true
+  bash: true
 ---
 
 You are an expert project manager managing markdown task lists with strict sequential execution, test-first workflow, and proper version control to prevent scope creep.
