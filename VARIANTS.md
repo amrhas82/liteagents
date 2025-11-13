@@ -32,6 +32,7 @@ The Agentic Toolkit comes in three variants, each designed for different user ne
 - UX Expert
 - QA Test Architect
 - Scrum Master
+- Context Initializer 
 - Create PRD
 - Generate Tasks
 - Process Task List
@@ -39,7 +40,7 @@ The Agentic Toolkit comes in three variants, each designed for different user ne
 **Perfect for:** Product teams, development teams, organizations needing full toolkit
 
 #### Pro Variant
-- All 13 agents (same as Standard)
+- All 14 agents (same as Standard)
 
 **Perfect for:** Enterprise teams with diverse needs
 
@@ -91,19 +92,19 @@ All Standard Skills (8) plus Advanced:
 
 ### Feature Comparison Matrix
 
-| Feature | Lite | Standard | Pro |
-|---------|------|----------|-----|
-| **Agents (Total)** | 3 | 13 | 13 |
-| **Document Processing** | PDF (basic) | PDF/DOCX/XLSX/PPTX | PDF/DOCX/XLSX/PPTX |
-| **Design Skills** | No | Canvas/Theme/Brand | Canvas/Theme/Brand |
-| **Content Creation** | No | Internal Communications | Internal Communications |
-| **Integration** | No | No | MCP Builder |
-| **Extensibility** | No | No | Skill Creator |
-| **Testing** | No | No | Web App Testing |
-| **Advanced Visuals** | No | No | GIF/Art/Artifacts |
-| **Auto-Discovery** | Yes | Yes | Yes |
-| **Multi-Agent Coordination** | Basic | Full | Full |
-| **Command Interface** | Yes | Yes | Yes |
+| Feature | Lite        | Standard                | Pro |
+|---------|-------------|-------------------------|-----|
+| **Agents (Total)** | 4           | 14                      | 13 |
+| **Document Processing** | PDF (basic) | PDF/DOCX/XLSX/PPTX      | PDF/DOCX/XLSX/PPTX |
+| **Design Skills** | No          | Canvas/Theme/Brand      | Canvas/Theme/Brand |
+| **Content Creation** | No          | Internal Communications | Internal Communications |
+| **Integration** | No          | No                      | MCP Builder |
+| **Extensibility** | No          | No                      | Skill Creator |
+| **Testing** | No          | No                      | Web App Testing |
+| **Advanced Visuals** | No          | No                      | GIF/Art/Artifacts |
+| **Auto-Discovery** | Yes         | Yes                     | Yes |
+| **Multi-Agent Coordination** | Basic       | Full                    | Full |
+| **Command Interface** | Yes         | Yes                     | Yes |
 
 ## Variant Decision Matrix
 
@@ -164,8 +165,6 @@ Use this matrix to help select your variant:
 - Custom development shops
 - Advanced users
 - Organizations with complex needs
-
-**Price:** $29/month or $299/year
 
 ## Use Case Scenarios
 
@@ -317,32 +316,6 @@ Use this matrix to help select your variant:
 2. Start with Standard features
 3. Explore advanced features as needed
 
-## Cost Comparison
-
-### Annual Cost
-
-| Variant | Monthly | Annual | Cost Per Agent | Cost Per Skill |
-|---------|---------|--------|-----------------|----------------|
-| **Lite** | Free | Free | Free | Free |
-| **Standard** | $9 | $99 | $7.60/agent | $12.40/skill |
-| **Pro** | $29 | $299 | $22.30/agent | $18.70/skill |
-
-### Value Assessment
-
-**Lite:**
-- Best value if learning
-- Free tier good for exploration
-
-**Standard:**
-- $0.30/day if annual
-- Best value for teams
-- Complete for most use cases
-
-**Pro:**
-- $0.97/day if annual
-- Value depends on integration needs
-- Essential if using MCP/custom skills
-
 ## Feature Checklist for Your Needs
 
 Check which features you need:
@@ -382,16 +355,6 @@ Check which features you need:
 - 6-15 items: Standard recommended
 - 16+ items or any Advanced: Pro recommended
 
-## Team Size Recommendations
-
-| Team Size | Variant | Reasoning |
-|-----------|---------|-----------|
-| **1 (Solo)** | Standard | Start with Standard, use all features |
-| **2-5** | Standard | Perfect for small teams |
-| **6-15** | Standard | Good for medium teams |
-| **16-50** | Standard or Pro | Pro if integrations needed |
-| **50+** | Pro | Maximum flexibility and customization |
-
 ## Storage & Resource Availability
 
 **Limited Storage?**
@@ -411,24 +374,6 @@ Check which features you need:
 
 ## Making Your Decision
 
-### Quick Decision Tree
-
-1. **Are you learning/exploring?**
-   - Yes → Start with Lite, upgrade later
-   - No → Continue to #2
-
-2. **Do you need document creation (DOCX/XLSX/PPTX)?**
-   - Yes → Must be Standard or Pro
-   - No → Continue to #2
-
-3. **Do you need integrations (MCP), testing, or custom skills?**
-   - Yes → Must be Pro
-   - No → Standard is perfect
-
-4. **Is cost a major constraint?**
-   - Yes → Start with Lite, upgrade when ready
-   - No → Go directly to Standard (recommended)
-
 ### Final Recommendation by Role
 
 - **Product Manager** - Standard minimum
@@ -439,20 +384,6 @@ Check which features you need:
 - **Business Analyst** - Standard minimum
 - **Solo/Learning** - Start with Lite
 - **Enterprise** - Pro recommended
-
-## Getting Help Choosing
-
-If you're still unsure:
-
-1. Try Lite first (it's free)
-2. Upgrade to Standard after a week
-3. Upgrade to Pro if you hit limitations
-
-Or contact support at support@anthropic.com with:
-- Your role
-- Your team size
-- Your primary use cases
-- Any integration needs
 
 ## After Choosing Your Variant
 
@@ -475,6 +406,6 @@ Your choice is not permanent:
 ---
 
 **Version:** 1.0.0
-**Last Updated:** Nov 2024
+**Last Updated:** Nov 2025
 
 Ready to start? Choose your variant and head to [QUICK-START.md](QUICK-START.md).

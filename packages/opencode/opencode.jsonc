@@ -120,6 +120,7 @@
         "bash": true
       },
       "description": "Use for system design, architecture documents, technology selection, API design, and infrastructure planning"
+      },
           "context-initializer": {
       "prompt": "{file:./agent/context-initializer.md}",
       "mode": "subagent",
