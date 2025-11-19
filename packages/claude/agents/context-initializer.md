@@ -111,6 +111,17 @@ Create lightweight auto-loaded context file at project root:
 ```markdown
 # [Project Name]
 
+## Agent System
+
+**IMPORTANT**: Global agentic agent system is active (from `~/.claude/CLAUDE.md`).
+- All requests route through **orchestrator** first (unless you specify `@agent-id` or `As agent-id, ...`)
+- Orchestrator analyzes intent and matches to optimal workflow pattern
+- You'll be asked conditional questions at each workflow step (e.g., "Research first?")
+- See `~/.claude/CLAUDE.md` for 9 pre-defined workflow patterns
+- Available agents: orchestrator, 1-create-prd, 2-generate-tasks, business-analyst, holistic-architect, full-stack-dev, qa-test-architect, ux-expert, product-owner, product-manager, scrum-master, master, context-initializer
+
+---
+
 ## Quick Context
 [2-3 sentence project description]
 
@@ -141,11 +152,19 @@ Create lightweight auto-loaded context file at project root:
 ```
 
 **CLAUDE.md Optimization Rules:**
+- **ALWAYS include Agent System section at the top** (this reminds Claude about global orchestrator-first routing)
 - Only info needed in EVERY session
 - No generic advice ("write clean code")
 - Concrete, actionable information
 - Use @docs/ references for deep dives
 - Update iteratively as project evolves
+
+**Agent System Section (MANDATORY):**
+- Must be first section after project title
+- References global `~/.claude/CLAUDE.md` for agent system
+- Reminds about orchestrator-first pattern
+- Lists available agents for quick reference
+- Separates agent instructions from project-specific content with `---` divider
 
 ## Phase 5: KNOWLEDGE_BASE.md Creation
 
@@ -333,6 +352,7 @@ All commands use * prefix:
 # Context Management Strategy
 
 ## Auto-Loaded (CLAUDE.md)
+✅ **Agent System reminder** (MANDATORY - always first section)
 ✅ Project structure overview
 ✅ Common commands
 ✅ Critical conventions
@@ -422,6 +442,13 @@ All commands use * prefix:
 
 ```markdown
 # [Project Name]
+
+## Agent System
+**IMPORTANT**: Global agent system active from `~/.claude/CLAUDE.md`.
+- Orchestrator-first routing enabled
+- See `~/.claude/CLAUDE.md` for workflow patterns
+
+---
 
 ## Architecture
 - [Key info]

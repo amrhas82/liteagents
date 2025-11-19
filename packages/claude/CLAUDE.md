@@ -2,9 +2,25 @@
 
 This file provides guidance and memory for your coding CLI.
 
+# MANDATORY: Orchestrator-First Routing Pattern
+
+**System Instruction for Claude Code**:
+When processing ANY user request, invoke the `orchestrator` agent FIRST unless:
+- User explicitly mentions a specific agent: `@agent-id` or `As agent-id, ...`
+- User invokes a skill: `/skill-name`
+- User gives a direct command: `npm test`, `git status`, file operations, etc.
+
+**Why orchestrator first?**
+- Analyzes user intent and matches to optimal workflow
+- Asks clarifying questions for conditional workflow steps (e.g., "Research first?")
+- Coordinates multi-agent sequences with minimal context passing
+- Ensures systematic approach to complex tasks
+
+**Orchestrator reads this registry** to match requests to specialists and invoke via Task tool with selective context injection.
+
 # Claude subagents and Tasks (Claude Code)
 
-Claude Code reads AGENTS.md when other subagents want to invoke other subagents, tasks, or resources
+Claude Code reads CLAUDE.md when other subagents want to invoke other subagents, tasks, or resources
 
 ## How To Use With Claude
 
@@ -38,6 +54,122 @@ Note
 | Business Analyst | business-analyst | Use for market research, brainstorming, competitive analysis, creating project briefs, initial project discovery, and documenting existing projects (brownfield) |
 | Context Initializer | context-initializer | Use to initialize Claude Code context for new/existing projects, discover and organize documentation, create CLAUDE.md and KNOWLEDGE_BASE.md for optimal token-efficient memory |
 
+## Common Workflow Patterns
+
+The orchestrator uses these patterns to match user intent to multi-agent workflows. Each step is **conditional** - orchestrator asks user approval before advancing.
+
+### 1. Feature Discovery Flow (Most Common)
+**User Intent**: "I need to add [feature]", "Build [new functionality]"
+**Workflow**:
+```
+orchestrator analyzes → asks: "Research competitive approaches first?"
+  ├─ Yes → business-analyst (research) → ask: "Create formal PRD?"
+  │   ├─ Yes → 1-create-prd → ask: "Generate implementation tasks?"
+  │   │   ├─ Yes → 2-generate-tasks → ask: "Start systematic implementation?"
+  │   │   │   ├─ Yes → 3-process-task-list
+  │   │   │   └─ No → Done (user has task list for review)
+  │   │   └─ No → Done (user has PRD for review)
+  │   └─ No → Done (user has research for review)
+  └─ No → 1-create-prd → (same conditional tree from PRD onward)
+```
+
+### 2. Product Definition Flow
+**User Intent**: "We're considering a new product/initiative", "Strategic product planning"
+**Workflow**:
+```
+orchestrator → ask: "Follow product definition workflow?"
+└─ Yes → product-manager (strategy, vision) → ask: "Define user stories?"
+    └─ Yes → product-owner (backlog, stories) → ask: "Technical feasibility assessment?"
+        └─ Yes → holistic-architect (platform decisions, technical design)
+```
+
+### 3. Story Implementation Flow
+**User Intent**: "Implement [existing story]", "Build [defined feature with acceptance criteria]"
+**Workflow**:
+```
+orchestrator → ask: "Validate story readiness first?"
+├─ Yes → product-owner (validate acceptance criteria) → full-stack-dev → qa-test-architect
+└─ No → full-stack-dev (implement) → qa-test-architect (quality gate)
+```
+
+### 4. Architecture Decision Flow
+**User Intent**: "Should we use [tech A] or [tech B]?", "How should we architect [system]?"
+**Workflow**:
+```
+orchestrator → business-analyst (gather constraints, requirements)
+            → holistic-architect (options analysis, tradeoffs)
+            → ask: "Need product alignment?"
+            └─ Yes → product-manager (strategic alignment, decision rationale)
+```
+
+### 5. UI Development Flow
+**User Intent**: "Build [UI component]", "Design and implement [interface]"
+**Workflow**:
+```
+orchestrator → ux-expert (wireframes, design system)
+            → ask: "Complex enough to need PRD?"
+            ├─ Yes → 1-create-prd → full-stack-dev → qa-test-architect
+            └─ No → full-stack-dev (implement) → qa-test-architect (validate)
+```
+
+### 6. Bug Triage Flow
+**User Intent**: "Bug: [description]", "Fix [broken behavior]"
+**Workflow**:
+```
+orchestrator → full-stack-dev (investigate root cause)
+            → ask: "Severity level?"
+            ├─ Critical → full-stack-dev (immediate fix) → qa-test-architect (verify)
+            └─ Non-critical → 1-create-prd (bug story) → backlog (for sprint planning)
+```
+
+### 7. Brownfield Discovery Flow
+**User Intent**: "Help me understand this codebase", "Document existing system"
+**Workflow**:
+```
+orchestrator → context-initializer (build knowledge base, discover patterns)
+            → business-analyst (document current state, stakeholders)
+            → ask: "Assess technical debt and modernization opportunities?"
+            └─ Yes → holistic-architect (technical assessment, recommendations)
+```
+
+### 8. Quality Validation Flow
+**User Intent**: "Review this PR", "Check code quality before merge"
+**Workflow**:
+```
+orchestrator → qa-test-architect (comprehensive review)
+            → [Decision gate]
+            ├─ PASS → Done (ready to merge)
+            ├─ CONCERNS → Present issues → user decides next step
+            └─ FAIL → full-stack-dev (apply fixes) → qa-test-architect (re-validate)
+```
+
+### 9. Sprint Planning Flow
+**User Intent**: "Plan next sprint", "Prepare sprint backlog"
+**Workflow**:
+```
+orchestrator → product-manager (prioritize features for sprint)
+            → scrum-master (break into user stories)
+            → product-owner (add acceptance criteria)
+            → 2-generate-tasks (create sprint backlog with tasks)
+```
+
+### Selective Context Injection
+
+When orchestrator invokes specialists, it passes **minimal necessary context**:
+
+**✓ Include**:
+- Direct user requirements for the specific task
+- Outputs from immediate workflow dependencies only
+- Relevant domain-specific files/data
+
+**✗ Exclude**:
+- Full conversation history
+- Unrelated workflow step outputs
+- Tangential project context
+
+**Example**: When invoking `qa-test-architect`:
+- ✓ Include: code diff, test requirements, acceptance criteria
+- ✗ Exclude: PRD creation discussions, UI wireframes, database schema decisions
 
 ### 1-Create PRD (id: 1-create-prd) 
 Source: [./agents/ux-expert.md](./agents/1-create-prd.md)

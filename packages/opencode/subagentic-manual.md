@@ -16,10 +16,10 @@ Install and invoke for your platform:
 
 | Platform | Installation | Invocation |
 |----------|--------------|-----------|
-| **Claude Code** | `cp -rv ai/subagents/claude/* ~/.claude/` | `@agent-name` or `As agent-name, ...` |
-| **OpenCode** | `cp -rv ai/subagents/opencode/* ~/.config/opencode/` | `@agent-name` or `As agent-name, ...` |
-| **Amp** | `cp -rv ai/subagents/ampcode/* ~/.config/amp/` | `As agent-name, ...` |
-| **Droid** | `cp -rv ai/subagents/droid/* ~/.factory/` + enable in `~/.factory/settings.json` | `invoke droid agent_name` |
+| **Claude Code** | `cp -rv ai/subagentic/claude/* ~/.claude/` | Automatic via orchestrator (or `@agent-name`, `As agent-name, ...`) |
+| **OpenCode** | `cp -rv ai/subagentic/opencode/* ~/.config/opencode/` | Automatic via orchestrator (or `@agent-name` or `As agent-name, ...` )|
+| **Amp** | `cp -rv ai/subagentic/ampcode/* ~/.config/amp/` | Automatic via orchestrator (or `As agent-name, ...` )|
+| **Droid** | `cp -rv ai/subagentic/droid/* ~/.factory/` + enable in `~/.factory/settings.json` | Automatic via orchestrator (or `invoke droid agent_name`) |
 
 ---
 
@@ -55,9 +55,9 @@ Install and invoke for your platform:
 | **full-stack-dev** | Code implementation, debugging, refactoring |
 | **holistic-architect** | System design, architecture docs, API design, scalability |
 | **business-analyst** | Market research, competitive analysis, project discovery |
-| **orchestrator** | Workflow coordination, multi-agent task management |
+| **orchestrator** | Workflow coordination, multi-agent task management, automatic routing |
 | **master** | Comprehensive expertise across all domains, universal executor |
-| **context-initializer** | Project context setup, documentation discovery and organization |
+| **context-initializer** | Project context setup, documentation discovery, creates CLAUDE.md with agent system |
 
 ---
 
@@ -146,10 +146,21 @@ Pre-built workflows for common development patterns (available in all kits):
 
 ## 🎯 How to Use This Package
 
+### Claude Code (Orchestrator-First Pattern)
+1. **Install** – `cp -rv ai/subagentic/claude/* ~/.claude/`
+2. **Make requests naturally** – "Add authentication feature", "Review this code", "Plan next sprint"
+3. **Orchestrator routes automatically** – Matches intent to optimal workflow, asks conditional questions
+4. **Bypass when needed** – `@agent-name` or `As agent-name, ...` for direct agent access
+5. **9 workflow patterns** – Pre-defined sequences in CLAUDE.md (Feature Discovery, Architecture Decision, etc.)
+
+**Key files:**
+- `~/.claude/CLAUDE.md` – Agent system with orchestrator-first routing and 9 workflows
+- `~/.claude/agents/` – 14 specialist agents (orchestrator, 1-create-prd, full-stack-dev, qa, etc.)
+- Project `CLAUDE.md` – Auto-created by context-initializer with agent system reminder
+
+### Other Platforms
 1. **Clone and Install** – Copy files to your CLI's config directory
 2. **Start with Workflow** – Use 1-create-prd → 2-generate-tasks → 3-process-task-list
 3. **Add Specialists** – Invoke agents by name for specific domain expertise
 4. **Leverage Skills** – Use skills within agents for specialized capabilities
 5. **Reuse Tasks** – Apply pre-built task templates for common patterns
-
-**Across all four platforms:** Claude Code, OpenCode, Amp, Droid

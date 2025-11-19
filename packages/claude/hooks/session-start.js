@@ -98,6 +98,13 @@ ${bold}${color}╚════════════════════�
    • Agents: ${agentCount}
    • Skills: ${skillCount}
 
+🎯 Orchestrator-First Pattern Active:
+   • All requests route through orchestrator unless you specify:
+     - Explicit agent: @agent-id or "As agent-id, ..."
+     - Direct skill: /skill-name
+   • Orchestrator will ask clarifying questions at each workflow step
+   • See AGENTS.md for 9 common workflow patterns
+
 💡 Quick Start:
    • Invoke agents: ${color}@Master:${reset} help
    • See agents: ${color}@Master:${reset} *help
