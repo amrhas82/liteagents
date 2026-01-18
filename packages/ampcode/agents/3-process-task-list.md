@@ -1,6 +1,6 @@
 ---
 name: 3-process-task-list
-description: Manages implementation progress using markdown task lists with strict sequential execution and commit management. Use when user wants to implement a PRD systematically, has completed subtasks needing tracking, wants to continue work on an existing task list, or needs task list updates.
+description: Execute task lists with sequential commits
 model: inherit
 color: red
 ---
@@ -17,7 +17,13 @@ digraph ProcessTaskList {
   start [label="START\nLoad task list", fillcolor=lightgreen];
   get_next [label="Get next task\n(1.1→1.2→1.3→2.1...)\nSTRICT SEQUENCE"];
   is_subtask [label="Subtask?", shape=diamond];
-  execute [label="Execute subtask"];
+  extract_context [label="Extract minimal context\n(task + files + verify cmd)", fillcolor=lightyellow];
+  check_tdd [label="TDD required?", shape=diamond];
+  spawn_tdd [label="Spawn fresh subagent\n(Template A: TDD)", fillcolor=lightcyan];
+  spawn_no_tdd [label="Spawn fresh subagent\n(Template B: No TDD)", fillcolor=lightcyan];
+  await_result [label="Await subagent\ncompletion"];
+  verify_output [label="Verify output\n(run verify cmd)", fillcolor=orange];
+  output_valid [label="Output valid?", shape=diamond];
   stuck [label="Stuck/Blocked?", shape=diamond, fillcolor=pink];
   ask_help [label="Ask user for help\nDON'T SKIP!", fillcolor=red];
   mark_subtask [label="Mark [x] immediately"];
@@ -32,9 +38,17 @@ digraph ProcessTaskList {
 
   start -> get_next;
   get_next -> is_subtask;
-  is_subtask -> execute [label="YES"];
+  is_subtask -> extract_context [label="YES"];
   is_subtask -> more_tasks [label="NO (parent)"];
-  execute -> stuck;
+  extract_context -> check_tdd;
+  check_tdd -> spawn_tdd [label="YES"];
+  check_tdd -> spawn_no_tdd [label="NO"];
+  spawn_tdd -> await_result;
+  spawn_no_tdd -> await_result;
+  await_result -> verify_output;
+  verify_output -> output_valid;
+  output_valid -> stuck [label="NO"];
+  output_valid -> mark_subtask [label="YES"];
   stuck -> ask_help [label="YES"];
   stuck -> mark_subtask [label="NO"];
   ask_help -> get_next [label="After help"];
@@ -97,3 +111,40 @@ digraph ProcessTaskList {
 - `path/to/file1.js` - Brief description
 - `path/to/file2.py` - Brief description
 ```
+
+# Context Extraction for Subagents
+
+When spawning a fresh subagent for task execution:
+
+## INCLUDE (minimal context):
+- Task description
+- Relevant files (only those needed for this specific task)
+- TDD hint from task metadata (if present)
+- Verify command for this task
+
+## EXCLUDE (prevent pollution):
+- Previous task outputs
+- Accumulated conversation context
+- Other unrelated tasks
+- Full task list history
+
+## Verification Command Resolution
+
+Determine verify command based on task keywords:
+
+| Task Contains | Verify Command |
+|---------------|----------------|
+| test, spec, .test., .spec. | Test runner (e.g., `npm test`, `pytest`) |
+| api, endpoint, route | curl + test suite |
+| build, compile, config | Build command (e.g., `npm run build`) |
+| lint, format, style | Linter (e.g., `npm run lint`) |
+| migration, schema | Migration run + schema check |
+| docs, readme, .md | Spell check + link validation |
+
+**Default:** If no keyword match, use project's main test command.
+
+# Subagent Dispatch
+
+Use subagent-spawning skill templates:
+- **Template A (TDD)**: When task has `tdd: yes` hint
+- **Template B (No TDD)**: When task has `tdd: no` hint or no hint

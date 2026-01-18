@@ -5,6 +5,32 @@ description: Use when implementing any feature or bugfix, before writing impleme
 
 # Test-Driven Development (TDD)
 
+## Auto-Trigger
+
+**APPLIES WHEN:**
+- About to write new production code (function, method, class)
+- Implementing any feature or bug fix
+- Modifying behavior of existing code
+- Task metadata includes `tdd: yes`
+- User requests feature implementation
+
+**APPLIES TO:**
+- All production code changes
+- Feature implementations
+- Bug fixes
+- Refactoring that changes behavior
+- API endpoint creation
+- Model/class creation
+
+**DOES NOT APPLY TO:**
+- Documentation files
+- Configuration files (unless logic-bearing)
+- Throwaway prototypes (with explicit user permission)
+- Generated code (with explicit user permission)
+
+**ENFORCEMENT:**
+If you find yourself writing implementation code before tests, STOP immediately. Delete the implementation and start over with TDD.
+
 ## Overview
 
 Write the test first. Watch it fail. Write minimal code to pass.

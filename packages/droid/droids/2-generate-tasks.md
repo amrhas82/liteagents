@@ -1,6 +1,6 @@
 ---
 name: 2-generate-tasks
-description: Converts PRDs into actionable development task lists. Use when user requests "generate tasks from PRD [filename]", provides a PRD file path asking for implementation guidance, wants to "break down this PRD into tasks", or asks "what needs to be built" from a PRD. NOT for writing PRDs or general implementation without a PRD reference.
+description: Convert PRDs into development task lists
 model: inherit
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---
@@ -92,13 +92,43 @@ Your task list MUST follow this exact structure:
 
 - [ ] 1.0 Parent Task Title
   - [ ] 1.1 Specific sub-task with implementation details
+    - tdd: yes
+    - verify: `npm test -- --grep "User"`
   - [ ] 1.2 Another sub-task with clear action items
+    - tdd: yes
+    - verify: `npm test -- --grep "Auth"`
   - [ ] 1.3 Write unit tests for feature
+    - tdd: no
+    - verify: `npm test`
   - [ ] 1.4 Verify: `pytest tests/feature/` - all pass
 - [ ] 2.0 Second Parent Task Title
   - [ ] 2.1 Sub-task description
+    - tdd: no
+    - verify: `npm run build`
   - [ ] 2.2 Verify: `npm run build` - no errors
 ```
+
+## TDD Hints (REQUIRED)
+
+Every subtask MUST include:
+- **tdd:** yes/no (whether TDD is required)
+- **verify:** command to verify task completion
+
+### TDD Detection Table
+
+Use this to determine if `tdd: yes`:
+
+| Task Type | TDD Hint | Example |
+|-----------|----------|---------|
+| Create model/class/function | yes | Create User model |
+| Add API endpoint | yes | Add POST /auth/login |
+| Fix bug | yes | Fix validation bug |
+| Add business logic | yes | Implement payment processing |
+| Update docs/config | no | Update README |
+| Add migration | no | Create users table migration |
+| Refactor (no behavior change) | no | Extract helper function |
+
+**Default:** When unsure, use `tdd: yes`
 
 ## Guidelines
 **Quality:** Clear for junior developers, complete (cover all PRD requirements), practical/achievable, leverage existing patterns, include testing, logical flow

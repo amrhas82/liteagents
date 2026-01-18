@@ -1,19 +1,38 @@
 ---
-description: Systematically trace bugs backward through call stack to find original trigger, never just fix symptoms
-argument-hint: <error-or-bug-to-trace>
+name: root-cause-tracing
+description: Use when errors occur deep in execution and you need to trace back to find the original trigger - systematically traces bugs backward through call stack, adding instrumentation when needed, to identify source of invalid data or incorrect behavior
 ---
+
+# Root Cause Tracing
+
+## Overview
+
+Bugs often manifest deep in the call stack (git init in wrong directory, file created in wrong location, database opened with wrong path). Your instinct is to fix where the error appears, but that's treating a symptom.
 
 **Core principle:** Trace backward through the call chain until you find the original trigger, then fix at the source.
 
 ## When to Use
+
+```dot
+digraph when_to_use {
+    "Bug appears deep in stack?" [shape=diamond];
+    "Can trace backwards?" [shape=diamond];
+    "Fix at symptom point" [shape=box];
+    "Trace to original trigger" [shape=box];
+    "BETTER: Also add defense-in-depth" [shape=box];
+
+    "Bug appears deep in stack?" -> "Can trace backwards?" [label="yes"];
+    "Can trace backwards?" -> "Trace to original trigger" [label="yes"];
+    "Can trace backwards?" -> "Fix at symptom point" [label="no - dead end"];
+    "Trace to original trigger" -> "BETTER: Also add defense-in-depth";
+}
+```
 
 **Use when:**
 - Error happens deep in execution (not at entry point)
 - Stack trace shows long call chain
 - Unclear where invalid data originated
 - Need to find which test/code triggers the problem
-
-**Don't fix symptoms:** Find the root cause that created the conditions for the bug.
 
 ## The Tracing Process
 
@@ -51,7 +70,7 @@ Project.create('name', context.tempDir); // Accessed before beforeEach!
 
 ## Adding Stack Traces
 
-When manual tracing isn't enough, add instrumentation:
+When you can't trace manually, add instrumentation:
 
 ```typescript
 // Before the problematic operation
@@ -75,39 +94,22 @@ async function gitInit(directory: string) {
 npm test 2>&1 | grep 'DEBUG git init'
 ```
 
+**Analyze stack traces:**
+- Look for test file names
+- Find the line number triggering the call
+- Identify the pattern (same test? same parameter?)
+
 ## Finding Which Test Causes Pollution
 
 If something appears during tests but you don't know which test:
 
-**Use bisection approach:**
+Use the bisection script: @find-polluter.sh
+
 ```bash
-# Run tests one by one until you find the polluter
 ./find-polluter.sh '.git' 'src/**/*.test.ts'
 ```
 
-**Manual approach:**
-```bash
-# Add logging to find the culprit
-echo "DEBUG: About to run operation" >&2
-npm test 2>&1 | grep -A5 -B5 "DEBUG:"
-```
-
-## Key Principles
-
-### The Golden Rule
-```
-NEVER fix just where the error appears.
-Trace back to find the original trigger.
-```
-
-### Layered Defense
-```
-1. Find immediate cause
-2. Trace backward to source  
-3. Fix at source
-4. Add validation at each layer
-5. Bug becomes impossible
-```
+Runs tests one-by-one, stops at first polluter. See script for usage.
 
 ## Real Example: Empty projectDir
 
@@ -124,11 +126,37 @@ Trace back to find the original trigger.
 
 **Fix:** Made tempDir a getter that throws if accessed before beforeEach
 
-**Defense-in-depth added:**
+**Also added defense-in-depth:**
 - Layer 1: Project.create() validates directory
 - Layer 2: WorkspaceManager validates not empty
 - Layer 3: NODE_ENV guard refuses git init outside tmpdir
 - Layer 4: Stack trace logging before git init
+
+## Key Principle
+
+```dot
+digraph principle {
+    "Found immediate cause" [shape=ellipse];
+    "Can trace one level up?" [shape=diamond];
+    "Trace backwards" [shape=box];
+    "Is this the source?" [shape=diamond];
+    "Fix at source" [shape=box];
+    "Add validation at each layer" [shape=box];
+    "Bug impossible" [shape=doublecircle];
+    "NEVER fix just the symptom" [shape=octagon, style=filled, fillcolor=red, fontcolor=white];
+
+    "Found immediate cause" -> "Can trace one level up?";
+    "Can trace one level up?" -> "Trace backwards" [label="yes"];
+    "Can trace one level up?" -> "NEVER fix just the symptom" [label="no"];
+    "Trace backwards" -> "Is this the source?";
+    "Is this the source?" -> "Trace backwards" [label="no - keeps going"];
+    "Is this the source?" -> "Fix at source" [label="yes"];
+    "Fix at source" -> "Add validation at each layer";
+    "Add validation at each layer" -> "Bug impossible";
+}
+```
+
+**NEVER fix just where the error appears.** Trace back to find the original trigger.
 
 ## Stack Trace Tips
 
@@ -137,75 +165,10 @@ Trace back to find the original trigger.
 **Include context:** Directory, cwd, environment variables, timestamps
 **Capture stack:** `new Error().stack` shows complete call chain
 
-## Common Tracing Patterns
-
-### Long Call Chains
-```typescript
-// Entry point
-await performOperation(input);
-
-// Deep in stack
-async function performOperation(input) {
-  await validateInput(input);     // Layer 1
-  await processData(input);       // Layer 2  
-  await persistResults(input);    // Layer 3
-  await notifyCompletion(input);  // Layer 4 - ERROR HERE
-}
-
-// Trace backward:
-// notifyCompletion → persistResults → processData → validateInput → performOperation
-// Find where invalid input originated
-```
-
-### Data Flow Issues
-```typescript
-// Error: null pointer in deep function
-function deepFunction(obj) {
-  obj.property.method(); // obj is null
-}
-
-// Trace:
-// Where did obj come from?
-// What called deepFunction?
-// What should obj contain?
-// Where was it created/modified?
-```
-
-### Test Pollution
-```typescript
-// Side effect in one test affects others
-test('test A', () => {
-  createFile('test.txt'); // Leaves file behind
-});
-
-test('test B', () => {
-  readFile('test.txt'); // Fails because test A didn't clean up
-});
-
-// Use find-polluter.sh to identify test A
-```
-
-## Usage Examples
-
-**Complex error:**
-`/root-cause-tracing "database connection fails after API call"`
-
-**Test pollution:**
-`/root-cause-tracing "filesystem pollution during test suite"`
-
-**Deep stack error:**
-`/root-cause-tracing "TypeError in third-party library deep call chain"`
-
-**Data corruption:**
-`/root-cause-tracing "user data corrupted in final processing step"`
-
 ## Real-World Impact
 
-**Benefits:**
-- Fixed root cause through 5-level trace
-- Fixed at source (getter validation)  
+From debugging session (2025-10-03):
+- Found root cause through 5-level trace
+- Fixed at source (getter validation)
 - Added 4 layers of defense
 - 1847 tests passed, zero pollution
-- Prevented future occurrences through validation
-
-Remember: Symptoms are clues, not the problem. Always trace backward to find and fix the source.

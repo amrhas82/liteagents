@@ -1,11 +1,30 @@
 ---
-description: Replace arbitrary timeouts with condition polling to eliminate flaky tests from timing guesses
-argument-hint: <condition-to-wait-for>
+name: condition-based-waiting
+description: Use when tests have race conditions, timing dependencies, or inconsistent pass/fail behavior - replaces arbitrary timeouts with condition polling to wait for actual state changes, eliminating flaky tests from timing guesses
 ---
+
+# Condition-Based Waiting
+
+## Overview
+
+Flaky tests often guess at timing with arbitrary delays. This creates race conditions where tests pass on fast machines but fail under load or in CI.
 
 **Core principle:** Wait for the actual condition you care about, not a guess about how long it takes.
 
 ## When to Use
+
+```dot
+digraph when_to_use {
+    "Test uses setTimeout/sleep?" [shape=diamond];
+    "Testing timing behavior?" [shape=diamond];
+    "Document WHY timeout needed" [shape=box];
+    "Use condition-based waiting" [shape=box];
+
+    "Test uses setTimeout/sleep?" -> "Testing timing behavior?" [label="yes"];
+    "Testing timing behavior?" -> "Document WHY timeout needed" [label="yes"];
+    "Testing timing behavior?" -> "Use condition-based waiting" [label="no"];
+}
+```
 
 **Use when:**
 - Tests have arbitrary delays (`setTimeout`, `sleep`, `time.sleep()`)
@@ -17,9 +36,7 @@ argument-hint: <condition-to-wait-for>
 - Testing actual timing behavior (debounce, throttle intervals)
 - Always document WHY if using arbitrary timeout
 
-## Quick Patterns
-
-Replace timing guesses with condition polling:
+## Core Pattern
 
 ```typescript
 // ❌ BEFORE: Guessing at timing
@@ -27,21 +44,25 @@ await new Promise(r => setTimeout(r, 50));
 const result = getResult();
 expect(result).toBeDefined();
 
-// ✅ AFTER: Waiting for condition  
+// ✅ AFTER: Waiting for condition
 await waitFor(() => getResult() !== undefined);
 const result = getResult();
 expect(result).toBeDefined();
 ```
 
-**Common scenarios:**
-- Wait for event: `waitFor(() => events.find(e => e.type === 'DONE'))`
-- Wait for state: `waitFor(() => machine.state === 'ready')`
-- Wait for count: `waitFor(() => items.length >= 5)`
-- Wait for file: `waitFor(() => fs.existsSync(path))`
-- Complex condition: `waitFor(() => obj.ready && obj.value > 10)`
+## Quick Patterns
+
+| Scenario | Pattern |
+|----------|---------|
+| Wait for event | `waitFor(() => events.find(e => e.type === 'DONE'))` |
+| Wait for state | `waitFor(() => machine.state === 'ready')` |
+| Wait for count | `waitFor(() => items.length >= 5)` |
+| Wait for file | `waitFor(() => fs.existsSync(path))` |
+| Complex condition | `waitFor(() => obj.ready && obj.value > 10)` |
 
 ## Implementation
 
+Generic polling function:
 ```typescript
 async function waitFor<T>(
   condition: () => T | undefined | null | false,
@@ -61,31 +82,11 @@ async function waitFor<T>(
     await new Promise(r => setTimeout(r, 10)); // Poll every 10ms
   }
 }
-
-// Domain-specific helpers
-async function waitForEvent(eventManager: any, eventType: string) {
-  return waitFor(() => 
-    eventManager.events.find((e: any) => e.type === eventType),
-    `event ${eventType}`
-  );
-}
-
-async function waitForEventCount(eventManager: any, eventType: string, count: number) {
-  return waitFor(() => 
-    eventManager.events.filter((e: any) => e.type === eventType).length >= count,
-    `${count} events of type ${eventType}`
-  );
-}
-
-async function waitForEventMatch(eventManager: any, eventType: string, matcher: any) {
-  return waitFor(() => 
-    eventManager.events.find((e: any) => e.type === eventType && matcher(e)),
-    `event ${eventType} matching criteria`
-  );
-}
 ```
 
-## Common Mistakes to Avoid
+See @example.ts for complete implementation with domain-specific helpers (`waitForEvent`, `waitForEventCount`, `waitForEventMatch`) from actual debugging session.
+
+## Common Mistakes
 
 **❌ Polling too fast:** `setTimeout(check, 1)` - wastes CPU
 **✅ Fix:** Poll every 10ms
@@ -112,22 +113,8 @@ await new Promise(r => setTimeout(r, 200));   // Then: wait for timed behavior
 
 ## Real-World Impact
 
-**Benefits:**
-- Fixed 15 flaky tests across multiple files
+From debugging session (2025-10-03):
+- Fixed 15 flaky tests across 3 files
 - Pass rate: 60% → 100%
-- Execution time: 40% faster  
+- Execution time: 40% faster
 - No more race conditions
-
-## Usage Examples
-
-**Wait for async operation:**
-`/condition-based-waiting "database connection established"`
-
-**Wait for UI state:**
-`/condition-based-waiting "login button enabled"`
-
-**Wait for file changes:**
-`/condition-based-waiting "build output file created"`
-
-**Complex condition:**
-`/condition-based-waiting "user authenticated AND profile loaded"`

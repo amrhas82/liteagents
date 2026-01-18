@@ -1,6 +1,6 @@
 ---
 name: 1-create-prd
-description: Creates Product Requirements Documents (PRDs) through structured discovery. Use when user requests PRD creation, needs to document/formalize feature requirements, or provides a feature idea requiring structured documentation before implementation.
+description: Create PRDs through structured discovery
 model: inherit
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---
@@ -24,6 +24,7 @@ digraph CreatePRD {
   self_verify [label="Self-verify checklist", shape=diamond];
   fix_issues [label="Fix missing items"];
   save [label="Save to\n/tasks/[n]-prd-*.md"];
+  verify_file [label="Verify: file exists\n& has all sections", fillcolor=orange];
   invoke_next [label="Invoke agent:\n2-generate-tasks", fillcolor=lightgreen];
   done [label="DONE", fillcolor=lightgreen];
 
@@ -38,7 +39,8 @@ digraph CreatePRD {
   self_verify -> fix_issues [label="Issues found"];
   self_verify -> save [label="All verified"];
   fix_issues -> self_verify;
-  save -> invoke_next;
+  save -> verify_file;
+  verify_file -> invoke_next;
   invoke_next -> done;
 }
 ```

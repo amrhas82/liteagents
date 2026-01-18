@@ -1,9 +1,28 @@
 ---
-description: Evidence before claims - verify work completion with fresh verification commands
-argument-hint: <work-claiming-to-complete>
+name: verification-before-completion
+description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
 ---
 
+# Verification Before Completion
+
+## Auto-Trigger
+
+**APPLIES WHEN:**
+- About to say: done, fixed, complete, passing, success
+- About to commit, push, create PR
+- About to mark task [x]
+
+**APPLIES TO:** All agents, all invocation paths
+
+**NEVER SKIP:** Even for "obvious" tasks
+
+## Overview
+
+Claiming work is complete without verification is dishonesty, not efficiency.
+
 **Core principle:** Evidence before claims, always.
+
+**Violating the letter of this rule is violating the spirit of this rule.**
 
 ## The Iron Law
 
@@ -29,89 +48,28 @@ BEFORE claiming any status or expressing satisfaction:
 Skip any step = lying, not verifying
 ```
 
-## Common Claims & Verification
+## Common Failures
 
-| Claim | Requires Verification | Not Sufficient |
-|-------|----------------------|----------------|
-| Tests pass | `npm test` output: 0 failures | "Previously passed" |
-| Linter clean | ESLint output: 0 errors | "Should be clean" |
-| Build succeeds | Build command: exit 0 | "Linter passed" |
-| Bug fixed | Test original symptom: passes | "Code changed" |
-| Regression test works | Red-green cycle verified | "Test passes" |
-| Requirements met | Line-by-line checklist completion | "Tests pass" |
-
-## Key Verification Patterns
-
-### Test Verification
-```bash
-# ✅ CORRECT
-npm test
-# See: "34/34 tests passing"
-"All tests pass"
-
-# ❌ WRONG  
-"Should pass now"
-"Looks correct"
-```
-
-### Build Verification
-```bash
-# ✅ CORRECT  
-npm run build
-# See: exit code 0
-"Build succeeds"
-
-# ❌ WRONG
-"Looks good"  
-"Linter was clean"
-```
-
-### Bug Fix Verification
-```bash
-# ✅ CORRECT
-# Re-create original bug scenario
-# See: bug no longer occurs
-"Bug fixed: original error no longer reproduces"
-
-# ❌ WRONG
-"Made the changes"
-"Code looks right"
-```
-
-### Regression Test (TDD Red-Green)
-```bash
-# ✅ CORRECT
-# Step 1: Write failing test
-# Step 2: Run test (must fail)
-# Step 3: Write minimal fix
-# Step 4: Run test (must pass) 
-# Step 5: Revert fix → Run (must fail)
-# Step 6: Restore fix → Run (must pass)
-"Red-green cycle verified"
-```
-
-### Requirements Verification
-```bash
-# ✅ CORRECT
-# Re-read requirements
-# Create verification checklist
-# Check each requirement against implementation
-# Report completion or gaps
-
-"Requirements verification complete:"
-"✅ Feature A implemented"
-"✅ Feature B implemented"  
-"❌ Feature C incomplete"
-```
+| Claim | Requires | Not Sufficient |
+|-------|----------|----------------|
+| Tests pass | Test command output: 0 failures | Previous run, "should pass" |
+| Linter clean | Linter output: 0 errors | Partial check, extrapolation |
+| Build succeeds | Build command: exit 0 | Linter passing, logs look good |
+| Bug fixed | Test original symptom: passes | Code changed, assumed fixed |
+| Regression test works | Red-green cycle verified | Test passes once |
+| Agent completed | VCS diff shows changes | Agent reports "success" |
+| Requirements met | Line-by-line checklist | Tests passing |
 
 ## Red Flags - STOP
 
 - Using "should", "probably", "seems to"
-- Expressing satisfaction before verification ("Great!", "Perfect!", "Done!")
+- Expressing satisfaction before verification ("Great!", "Perfect!", "Done!", etc.)
 - About to commit/push/PR without verification
 - Trusting agent success reports
 - Relying on partial verification
-- **ANY wording implying success without verification**
+- Thinking "just this once"
+- Tired and wanting work over
+- **ANY wording implying success without having run verification**
 
 ## Rationalization Prevention
 
@@ -124,23 +82,64 @@ npm run build
 | "Agent said success" | Verify independently |
 | "I'm tired" | Exhaustion ≠ excuse |
 | "Partial check is enough" | Partial proves nothing |
+| "Different words so rule doesn't apply" | Spirit over letter |
 
-## Usage Examples
+## Key Patterns
 
-**Before claiming tests pass:**
-`/verification-before-completion "all unit tests passing"`
+**Tests:**
+```
+✅ [Run test command] [See: 34/34 pass] "All tests pass"
+❌ "Should pass now" / "Looks correct"
+```
 
-**Before claiming build succeeds:**
-`/verification-before-completion "production build working"`
+**Regression tests (TDD Red-Green):**
+```
+✅ Write → Run (pass) → Revert fix → Run (MUST FAIL) → Restore → Run (pass)
+❌ "I've written a regression test" (without red-green verification)
+```
 
-**Before claiming bug fixed:**
-`/verification-before-completion "original error resolved"`
+**Build:**
+```
+✅ [Run build] [See: exit 0] "Build passes"
+❌ "Linter passed" (linter doesn't check compilation)
+```
 
-**Before claiming requirements met:**
-`/verification-before-completion "feature specification fulfilled"`
+**Requirements:**
+```
+✅ Re-read plan → Create checklist → Verify each → Report gaps or completion
+❌ "Tests pass, phase complete"
+```
 
-**Before committing code:**
-`/verification-before-completion "ready for commit"`
+**Agent delegation:**
+```
+✅ Agent reports success → Check VCS diff → Verify changes → Report actual state
+❌ Trust agent report
+```
+
+## Why This Matters
+
+From 24 failure memories:
+- your human partner said "I don't believe you" - trust broken
+- Undefined functions shipped - would crash
+- Missing requirements shipped - incomplete features
+- Time wasted on false completion → redirect → rework
+- Violates: "Honesty is a core value. If you lie, you'll be replaced."
+
+## When To Apply
+
+**ALWAYS before:**
+- ANY variation of success/completion claims
+- ANY expression of satisfaction
+- ANY positive statement about work state
+- Committing, PR creation, task completion
+- Moving to next task
+- Delegating to agents
+
+**Rule applies to:**
+- Exact phrases
+- Paraphrases and synonyms
+- Implications of success
+- ANY communication suggesting completion/correctness
 
 ## The Bottom Line
 
@@ -148,4 +147,4 @@ npm run build
 
 Run the command. Read the output. THEN claim the result.
 
-This prevents false completion claims and maintains trust through evidence-based reporting.
+This is non-negotiable.

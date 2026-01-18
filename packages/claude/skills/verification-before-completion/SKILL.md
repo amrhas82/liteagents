@@ -5,6 +5,17 @@ description: Use when about to claim work is complete, fixed, or passing, before
 
 # Verification Before Completion
 
+## Auto-Trigger
+
+**APPLIES WHEN:**
+- About to say: done, fixed, complete, passing, success
+- About to commit, push, create PR
+- About to mark task [x]
+
+**APPLIES TO:** All agents, all invocation paths
+
+**NEVER SKIP:** Even for "obvious" tasks
+
 ## Overview
 
 Claiming work is complete without verification is dishonesty, not efficiency.

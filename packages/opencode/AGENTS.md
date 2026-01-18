@@ -18,7 +18,7 @@ When processing ANY user request, invoke the `orchestrator` agent FIRST unless:
 
 **Orchestrator reads this registry** to match requests to specialists and invoke via Task tool with selective context injection.
 
-# Opencode subagents and Tasks (OpenCode)
+# Opencode subagents and Commands (OpenCode)
 
 Opencode reads AGENTS.md during initialization and uses it as part of its system prompt for the session. 
 
@@ -53,7 +53,6 @@ Note
 | Architect | system-architect | Use for system design, architecture documents, technology selection, API design, and infrastructure planning |
 | Business Analyst | market-researcher | Use for market research, brainstorming, competitive analysis, creating project briefs, initial project discovery, and documenting existing projects (brownfield) |
 | Context Initializer | context-builder | Use to initialize Opencode context for new/existing projects, discover and organize documentation, create AGENTS.md and KNOWLEDGE_BASE.md for optimal token-efficient memory |
-| Documentation Architect | docs-builder | Use to create comprehensive project documentation with structured /docs hierarchy (00-context, 01-product, 02-features, 03-logs, 04-process) |
 
 ## Common Workflow Patterns
 
@@ -270,260 +269,125 @@ Source: [./agent/market-researcher.md](./agent/market-researcher.md)
 - How to activate: Mention "As analyst, ..." to get role-aligned behavior
 - Full definition: open the source file above (content not embedded)
 
-### Documentation Architect (id: docs-builder)
-Source: [./agent/docs-builder.md](./agent/docs-builder.md)
-
-- When to use: Use to create comprehensive project documentation with structured /docs hierarchy (00-context, 01-product, 02-features, 03-logs, 04-process)
-- How to activate: Mention "As docs-builder, ..." to get role-aligned behavior
-- Full definition: open the source file above (content not embedded)
-
-## Tasks
-
-These are reusable task briefs; use the paths to open them as needed.
-
-### Task: validate-next-story
-Source: [./resources/task-briefs.md#validate-next-story](./resources/task-briefs.md#validate-next-story)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: trace-requirements
-Source: [./resources/task-briefs.md#trace-requirements](./resources/task-briefs.md#trace-requirements)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: test-design
-Source: [./resources/task-briefs.md#test-design](./resources/task-briefs.md#test-design)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: shard-doc
-Source: [./resources/task-briefs.md#shard-doc](./resources/task-briefs.md#shard-doc)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: risk-profile
-Source: [./resources/task-briefs.md#risk-profile](./resources/task-briefs.md#risk-profile)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: review-story
-Source: [./resources/task-briefs.md#review-story](./resources/task-briefs.md#review-story)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: quality-assurance-gate
-Source: [./resources/task-briefs.md#qa-gate](./resources/task-briefs.md#qa-gate)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: nfr-assess
-Source: [./resources/task-briefs.md#nfr-assess](./resources/task-briefs.md#nfr-assess)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: index-docs
-Source: [./resources/task-briefs.md#index-docs](./resources/task-briefs.md#index-docs)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: generate-ai-frontend-prompt
-Source: [./resources/task-briefs.md#generate-ai-frontend-prompt](./resources/task-briefs.md#generate-ai-frontend-prompt)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: facilitate-brainstorming-session
-Source: [./resources/task-briefs.md#facilitate-brainstorming-session](./resources/task-briefs.md#facilitate-brainstorming-session)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: execute-checklist
-Source: [./resources/task-briefs.md#execute-checklist](./resources/task-briefs.md#execute-checklist)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: document-project
-Source: [./resources/task-briefs.md#document-project](./resources/task-briefs.md#document-project)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: create-next-story
-Source: [./resources/task-briefs.md#create-next-story](./resources/task-briefs.md#create-next-story)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: create-doc
-Source: [./resources/task-briefs.md#create-doc](./resources/task-briefs.md#create-doc)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: create-deep-research-prompt
-Source: [./resources/task-briefs.md#create-deep-research-prompt](./resources/task-briefs.md#create-deep-research-prompt)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: create-brownfield-story
-Source: [./resources/task-briefs.md#create-brownfield-story](./resources/task-briefs.md#create-brownfield-story)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: correct-course
-Source: [./resources/task-briefs.md#correct-course](./resources/task-briefs.md#correct-course)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: brownfield-create-story
-Source: [./resources/task-briefs.md#brownfield-create-story](./resources/task-briefs.md#brownfield-create-story)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: brownfield-create-epic
-Source: [./resources/task-briefs.md#brownfield-create-epic](./resources/task-briefs.md#brownfield-create-epic)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: apply-qa-fixes
-Source: [./resources/task-briefs.md#apply-qa-fixes](./resources/task-briefs.md#apply-qa-fixes)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
-
-### Task: advanced-elicitation
-Source: [./resources/task-briefs.md#advanced-elicitation](./resources/task-briefs.md#advanced-elicitation)
-- How to use: Reference the task in your prompt or execute via your configured commands.
-- Full brief: open the source file above (content not embedded)
 
 ## Commands
 
-These are slash commands available in the TUI. Use /command-name to execute.
-
-### Command: xlsx
-Source: [./command/xlsx.md](./command/xlsx.md)
-- Description: Create, edit, and analyze spreadsheets with formulas, formatting, data analysis, and visualization
-- Usage: `/xlsx <operation> <spreadsheet-file>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: webapp-testing
-Source: [./command/webapp-testing.md](./command/webapp-testing.md)
-- Description: Test local web applications using Playwright - verify functionality, debug UI, capture screenshots
-- Usage: `/webapp-testing <webapp-url-or-local-server>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: systematic-debugging
-Source: [./command/systematic-debugging.md](./command/systematic-debugging.md)
-- Description: Systematic four-phase debugging framework - investigate root cause before any fixes
-- Usage: `/systematic-debugging <bug-or-error-description>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: slack-gif-creator
-Source: [./command/slack-gif-creator.md](./command/slack-gif-creator.md)
-- Description: Create animated GIFs optimized for Slack with size validation and composable animation primitives
-- Usage: `/slack-gif-creator <gif-type> <animation-concept>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: verification-before-completion
-Source: [./command/verification-before-completion.md](./command/verification-before-completion.md)
-- Description: Verify work meets requirements before marking complete - prevents incomplete deliverables
-- Usage: `/verification-before-completion <work-to-verify>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: skill-creator
-Source: [./command/skill-creator.md](./command/command/skill-creator.md)
-- Description: Create reusable skills with proper structure, validation, and documentation
-- Usage: `/skill-creator <skill-type> <skill-description>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: test-driven-development
-Source: [./command/test-driven-development.md](./command/test-driven-development.md)
-- Description: Write test first, watch it fail, write minimal code to pass - ensures tests actually verify behavior
-- Usage: `/test-driven-development <feature-or-behavior-to-test>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: testing-anti-patterns
-Source: [./command/testing-anti-patterns.md](./command/testing-anti-patterns.md)
-- Description: Identify and avoid common testing anti-patterns that create fragile, useless tests
-- Usage: `/testing-anti-patterns <testing-scenario>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: theme-factory
-Source: [./command/theme-factory.md](./command/theme-factory.md)
-- Description: Generate consistent themes with proper color systems, typography, and spacing
-- Usage: `/theme-factory <theme-type> <design-requirements>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: root-cause-tracing
-Source: [./command/root-cause-tracing.md](./command/root-cause-tracing.md)
-- Description: Trace issues to their root cause using systematic investigation techniques
-- Usage: `/root-cause-tracing <issue-description>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: internal-comms
-Source: [./command/internal-comms.md](./command/internal-comms.md)
-- Description: Structure internal communications for clarity, actionability, and team alignment
-- Usage: `/internal-comms <communication-type> <audience>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: pdf
-Source: [./command/pdf.md](./command/pdf.md)
-- Description: Create, edit, and analyze PDF documents with proper formatting and structure
-- Usage: `/pdf <operation> <pdf-file>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: mcp-builder
-Source: [./command/mcp-builder.md](./command/mcp-builder.md)
-- Description: Build Model Context Protocol servers with proper tool definitions and error handling
-- Usage: `/mcp-builder <server-type> <specifications>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: condition-based-waiting
-Source: [./command/condition-based-waiting.md](./command/condition-based-waiting.md)
-- Description: Implement robust waiting mechanisms based on conditions rather than fixed delays
-- Usage: `/condition-based-waiting <condition-type> <timeout-specs>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: pptx
-Source: [./command/pptx.md](./command/pptx.md)
-- Description: Create professional PowerPoint presentations with proper structure and design
-- Usage: `/pptx <presentation-type> <content-outline>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: docx
-Source: [./command/docx.md](./command/docx.md)
-- Description: Create and edit Word documents with proper formatting and structure
-- Usage: `/docx <operation> <document-specs>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: brand-guidelines
-Source: [./command/brand-guidelines.md](./command/brand-guidelines.md)
-- Description: Establish comprehensive brand guidelines with visual identity and usage rules
-- Usage: `/brand-guidelines <brand-type> <requirements>`
-- Full definition: open the source file above (content not embedded)
-
 ### Command: brainstorming
-Source: [./command/brainstorming.md](./command/brainstorming.md)
+Source: [./command/brainstorming.md](./commands/brainstorming.md)
 - Description: Facilitate structured brainstorming sessions with proven techniques and frameworks
 - Usage: `/brainstorming <session-type> <topic>`
 - Full definition: open the source file above (content not embedded)
 
-### Command: canvas-design
-Source: [./command/canvas-design.md](./command/canvas-design.md)
-- Description: Design visual canvases for business models, user journeys, and strategic planning
-- Usage: `/canvas-design <canvas-type> <design-goals>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: artifacts-builder
-Source: [./command/artifacts-builder.md](./command/artifacts-builder.md)
-- Description: Build structured artifacts with proper validation, formatting, and documentation
-- Usage: `/artifacts-builder <artifact-type> <specifications>`
-- Full definition: open the source file above (content not embedded)
-
-### Command: algorithmic-art
-Source: [./command/algorithmic-art.md](./command/algorithmic-art.md)
-- Description: Generate algorithmic art with mathematical patterns and aesthetic principles
-- Usage: `/algorithmic-art <art-type> <pattern-specs>`
-- Full definition: open the source file above (content not embedded)
-
 ### Command: code-review
-Source: [./command/code-review.md](./command/code-review.md)
+Source: [./command/code-review.md](./commands/code-review.md)
 - Description: Conduct thorough code reviews with focus on quality, security, and maintainability
 - Usage: `/code-review <review-scope> <focus-areas>`
 - Full definition: open the source file above (content not embedded)
 
+### Command: condition-based-waiting
+Source: [./command/condition-based-waiting.md](./commands/condition-based-waiting.md)
+- Description: Implement robust waiting mechanisms based on conditions rather than fixed delays
+- Usage: `/condition-based-waiting <condition-type> <timeout-specs>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: debug
+Source: [./command/debug.md](./commands/debug.md)
+- Description: Debug an issue systematically using structured investigation techniques
+- Usage: `/debug <issue-description>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: docs-builder
+Source: [./command/docs-builder/SKILL.md](./commands/docs-builder/SKILL.md)
+- Description: Create comprehensive project documentation with structured /docs hierarchy
+- Usage: `/docs-builder`
+- Full definition: open the source file above (content not embedded)
+
+### Command: explain
+Source: [./command/explain.md](./commands/explain.md)
+- Description: Explain code for someone new to the codebase
+- Usage: `/explain <code-section>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: git-commit
+Source: [./command/git-commit.md](./commands/git-commit.md)
+- Description: Analyze changes and create intelligent git commits
+- Usage: `/git-commit`
+- Full definition: open the source file above (content not embedded)
+
+### Command: optimize
+Source: [./command/optimize.md](./commands/optimize.md)
+- Description: Analyze and optimize performance issues
+- Usage: `/optimize <target-area>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: refactor
+Source: [./command/refactor.md](./commands/refactor.md)
+- Description: Refactor code while maintaining behavior and tests
+- Usage: `/refactor <code-section>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: review
+Source: [./command/review.md](./commands/review.md)
+- Description: Comprehensive code review including quality, tests, and architecture
+- Usage: `/review`
+- Full definition: open the source file above (content not embedded)
+
+### Command: root-cause-tracing
+Source: [./command/root-cause-tracing.md](./commands/root-cause-tracing.md)
+- Description: Trace issues to their root cause using systematic investigation techniques
+- Usage: `/root-cause-tracing <issue-description>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: security
+Source: [./command/security.md](./commands/security.md)
+- Description: Security vulnerability scan and analysis
+- Usage: `/security`
+- Full definition: open the source file above (content not embedded)
+
+### Command: ship
+Source: [./command/ship.md](./commands/ship.md)
+- Description: Pre-deployment verification checklist
+- Usage: `/ship`
+- Full definition: open the source file above (content not embedded)
+
+### Command: skill-creator
+Source: [./command/skill-creator.md](./commands/skill-creator.md)
+- Description: Create reusable skills with proper structure, validation, and documentation
+- Usage: `/skill-creator <skill-type> <skill-description>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: subagent-spawning
+Source: [./command/subagent-spawning.md](./commands/subagent-spawning.md)
+- Description: Templates for spawning fresh subagents with TDD-aware task isolation
+- Usage: Used by 3-process-task-list and other agents for clean subagent execution
+- Full definition: open the source file above (content not embedded)
+
+### Command: systematic-debugging
+Source: [./command/systematic-debugging.md](./commands/systematic-debugging.md)
+- Description: Systematic four-phase debugging framework - investigate root cause before any fixes
+- Usage: `/systematic-debugging <bug-or-error-description>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: test-driven-development
+Source: [./command/test-driven-development.md](./commands/test-driven-development.md)
+- Description: Write test first, watch it fail, write minimal code to pass - ensures tests actually verify behavior by requiring failure first. Auto-triggers when implementing features/bugfixes.
+- Usage: `/test-driven-development <feature-or-behavior-to-test>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: test-generate
+Source: [./command/test-generate.md](./commands/test-generate.md)
+- Description: Generate comprehensive test suites for existing code
+- Usage: `/test-generate <code-section>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: testing-anti-patterns
+Source: [./command/testing-anti-patterns.md](./commands/testing-anti-patterns.md)
+- Description: Identify and avoid common testing anti-patterns that create fragile, useless tests
+- Usage: `/testing-anti-patterns <testing-scenario>`
+- Full definition: open the source file above (content not embedded)
+
+### Command: verification-before-completion
+Source: [./command/verification-before-completion.md](./commands/verification-before-completion.md)
+- Description: Verify work meets requirements before marking complete - prevents incomplete deliverables. Auto-triggers before claiming done/fixed/complete/passing.
+- Usage: `/verification-before-completion <work-to-verify>`
+- Full definition: open the source file above (content not embedded)

@@ -111,7 +111,7 @@ You MUST complete each phase before proceeding to the next.
 
    **WHEN error is deep in call stack:**
 
-   **REQUIRED SUB-SKILL:** Use superpowers:root-cause-tracing for backward tracing technique
+   **REQUIRED SUB-SKILL:** Use root-cause-tracing for backward tracing technique
 
    **Quick version:**
    - Where does bad value originate?
@@ -282,7 +282,6 @@ If systematic investigation reveals issue is truly environmental, timing-depende
 - **test-driven-development** - REQUIRED for creating failing test case (see Phase 4, Step 1)
 
 **Complementary skills:**
-- **defense-in-depth** - Add validation at multiple layers after finding root cause
 - **condition-based-waiting** - Replace arbitrary timeouts identified in Phase 2
 - **verification-before-completion** - Verify fix worked before claiming success
 

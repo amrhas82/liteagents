@@ -1,6 +1,6 @@
 ---
 name: context-builder
-description: Creates lightweight CLAUDE.md (<95 lines) that references KNOWLEDGE_BASE.md for comprehensive documentation. Optimizes token usage through strategic organization.
+description: Initialize project context and documentation
 mode: subagent
 temperature: 0.2
 tools:
