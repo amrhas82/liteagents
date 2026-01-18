@@ -1,6 +1,8 @@
 ---
-name: story-writer
+id: story-writer
+title: Scrum Master
 description: Create user stories, manage epics, run retros
+when_to_use: Use for story creation, epic management, retrospectives in party-mode, and agile process guidance
 mode: subagent
 temperature: 0.2
 tools:

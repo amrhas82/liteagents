@@ -1,6 +1,8 @@
 ---
-name: market-researcher
+id: market-researcher
+title: Business Analyst
 description: Research markets, analyze competitors, brainstorm
+when_to_use: Use for market research, brainstorming, competitive analysis, creating project briefs, initial project discovery, and documenting existing projects (brownfield)
 mode: subagent
 temperature: 0.4
 tools:

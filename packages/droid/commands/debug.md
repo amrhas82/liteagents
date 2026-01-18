@@ -1,5 +1,8 @@
 ---
+id: debug
+name: debug
 description: Debug issue [issue]
+usage: /debug <issue-description>
 argument-hint: [description of the problem]
 ---
 Debug: $ARGUMENTS

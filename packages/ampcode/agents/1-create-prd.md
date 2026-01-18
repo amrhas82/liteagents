@@ -1,6 +1,8 @@
 ---
-name: 1-create-prd
+id: 1-create-prd
+title: 1-Create PRD
 description: Create PRDs through structured discovery
+when_to_use: Define Scope - use to clearly outline what needs to be built with a Product Requirement Document (PRD)
 model: inherit
 color: green
 ---

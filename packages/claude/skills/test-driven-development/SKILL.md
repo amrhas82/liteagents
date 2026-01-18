@@ -1,6 +1,9 @@
 ---
+id: test-driven-development
 name: test-driven-development
 description: Use when implementing any feature or bugfix, before writing implementation code - write the test first, watch it fail, write minimal code to pass; ensures tests actually verify behavior by requiring failure first
+usage: /test-driven-development <feature-or-behavior-to-test>
+auto_trigger: true
 ---
 
 # Test-Driven Development (TDD)

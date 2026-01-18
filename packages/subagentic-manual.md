@@ -1,6 +1,6 @@
 # Subagentic Manual
 
-Production-ready AI agent framework providing specialized subagents, workflow commands, and development skills for **Claude Code**, **OpenCode**, **Amp**, and **Droid**. Deploy expert AI personas instantly with zero configuration.
+Production-ready AI agent framework providing specialized subagents, workflow commands, and development skills for **Claude Code**, **OpenCode**, **Ampcode**, and **Droid**. Deploy expert AI personas instantly with zero configuration.
 
 ---
 
@@ -11,9 +11,9 @@ Production-ready AI agent framework providing specialized subagents, workflow co
 **The Solution**: Subagentic provides:
 - **Role-Specialized Agents** - Expert personas (architect, QA, product manager) with domain-specific knowledge
 - **Systematic Workflows** - Proven development patterns (PRD → Tasks → Implementation)
-- **Progressive Token Loading** - Lightweight stubs (~950 tokens) until agents are invoked
 - **Orchestrator-First Routing** - Automatic workflow matching based on user intent
-- **Platform Agnostic** - Works across Claude Code, OpenCode, Amp, and Droid
+- **Frontmatter-Based Discovery** - All resources self-describe via YAML frontmatter
+- **Platform Agnostic** - Works across Claude Code, OpenCode, Ampcode, and Droid
 
 **The Result**: Predictable, high-quality outputs from specialized agents following best practices, without manually switching contexts or crafting complex prompts.
 
@@ -24,127 +24,132 @@ Production-ready AI agent framework providing specialized subagents, workflow co
 Clone the toolkit:
 ```bash
 git clone https://github.com/amrhas82/agentic-toolkit
-cd agentic-toolkit
+cd agentic-toolkit/ai/subagentic
 ```
 
 Install for your platform:
 
-| Platform | Installation | Invocation |
-|----------|--------------|-----------|
-| **Claude Code** | `cp -rv ai/subagentic/claude/* ~/.claude/` | Automatic via orchestrator or `@agent-name` |
-| **OpenCode** | `cp -rv ai/subagentic/opencode/* ~/.config/opencode/` | Automatic via orchestrator or `@agent-name` |
-| **Amp** | `cp -rv ai/subagentic/ampcode/* ~/.config/amp/` | Automatic via orchestrator or `As agent-name` |
-| **Droid** | `cp -rv ai/subagentic/droid/* ~/.factory/` + enable in settings | Automatic via orchestrator or `invoke droid agent-name` |
+| Platform | Installation | What's Included |
+|----------|--------------|-----------------|
+| **Claude Code** | `cp -r claude/* ~/.claude/` | 14 subagents + 11 skills + 9 commands |
+| **Droid** | `cp -r droid/* ~/.factory/` | 20 commands (subagent references) |
+| **Ampcode** | `cp -r ampcode/* ~/.config/amp/` | 20 commands (subagent references) |
+| **OpenCode** | `cp -r opencode/* ~/.config/opencode/` | 20 commands (subagent references) |
+
+**Key Difference**:
+- **Claude Code** implements full subagent system with orchestrator
+- **Droid/Ampcode/OpenCode** provide commands only + reference documentation for Claude's subagents
 
 ---
 
 ## 📦 What's Included
 
-### Per-Platform Contents
+### Claude Code (Full System)
 
-**14 Subagents**
-- 3 Workflow Agents (PRD → Tasks → Implementation)
-- 11 Specialist Agents (UX, QA, Architecture, Product, etc.)
+**14 Subagents** - Expert personas with specialized knowledge
+- 3 Workflow Agents (PRD, Tasks, Implementation)
+- 11 Specialist Agents (UX, QA, Architecture, Product, Development, etc.)
 
-**Commands/Skills**
-- **Claude Code**: 11 skills + 9 commands (20 total)
-- **OpenCode, Droid, Amp**: 20 commands
+**11 Skills** - Auto-triggering workflow components
+- test-driven-development, testing-anti-patterns, verification-before-completion (auto-trigger)
+- brainstorming, code-review, systematic-debugging, docs-builder, etc.
+
+**9 Commands** - Simple workflow helpers
+- debug, explain, git-commit, optimize, refactor, review, security, ship, test-generate
 
 **Orchestration System**
-- Automatic intent matching to optimal workflows
-- 9 pre-defined workflow patterns
+- Automatic intent matching to 9 workflow patterns
 - Conditional decision points with user approval gates
+- Selective context injection
 
-**Zero Configuration**
-- Copy files and start immediately
-- No API keys, settings, or dependencies required
+### Droid/Ampcode/OpenCode (Commands Only)
+
+**20 Commands** - All workflow capabilities in command form
+- Combines Claude's skills + commands into unified command set
+- Same functionality, different invocation model (no auto-triggering)
+- Includes reference documentation for Claude's subagents
+
+**No Orchestrator** - Direct command invocation only
 
 ---
 
-## 🤖 14 Subagents
+## 🤖 Subagents (Claude Code Only)
 
 ### Workflow Agents (3)
 
-Create systematic development processes with built-in review gates.
+| Agent | Purpose |
+|-------|---------|
+| **1-create-prd** | Define scope with structured Product Requirement Documents |
+| **2-generate-tasks** | Break PRDs into granular, actionable task lists |
+| **3-process-task-list** | Execute tasks iteratively with progress tracking and review checkpoints |
 
-| Agent | Purpose | Token Load* |
-|-------|---------|------------|
-| **1-create-prd** | Define scope with structured Product Requirement Documents | ~889 tokens |
-| **2-generate-tasks** | Break PRDs into granular, actionable task lists | ~1,029 tokens |
-| **3-process-task-list** | Execute tasks iteratively with progress tracking and review checkpoints | ~1,004 tokens |
-
-**Workflow Pattern**: PRD → Tasks → Iterative Implementation → Review → Complete
+**Pattern**: PRD → Tasks → Iterative Implementation → Review → Complete
 
 ### Specialist Agents (11)
 
-Domain experts for every phase of software development.
-
-| Agent | Purpose | Token Load* |
-|-------|---------|------------|
-| **orchestrator** | Analyze intent, coordinate workflows, route to optimal agent sequences | ~902 tokens |
-| **master** | General-purpose executor with comprehensive expertise across domains | ~1,073 tokens |
-| **ui-designer** | UI/UX design, wireframes, prototypes, accessibility, design systems | ~1,113 tokens |
-| **code-developer** | Implementation, debugging, refactoring, code best practices | ~1,025 tokens |
-| **quality-assurance** | Test architecture, quality gates, requirements traceability, risk assessment | ~1,351 tokens |
-| **system-architect** | System design, technology selection, API design, scalability planning | ~1,427 tokens |
-| **feature-planner** | Product strategy, PRDs, feature prioritization, roadmap planning | ~1,243 tokens |
-| **backlog-manager** | Backlog refinement, story writing, acceptance criteria, sprint planning | ~1,299 tokens |
-| **story-writer** | User stories, epic management, agile ceremonies, retrospectives | ~927 tokens |
-| **market-researcher** | Market analysis, competitive research, project discovery, stakeholder mapping | ~1,295 tokens |
-| **context-builder** | Initialize project context, discover documentation, create knowledge bases | ~1,614 tokens |
-
-**Progressive Loading**: Base conversation loads lightweight stubs (~50-90 tokens each, ~950 tokens total). Full agent content loads only when invoked. Check actual usage with `/context` command.
+| Agent | Purpose |
+|-------|---------|
+| **orchestrator** | Analyze intent, coordinate workflows, route to optimal agent sequences |
+| **master** | General-purpose executor with comprehensive expertise across domains |
+| **ui-designer** | UI/UX design, wireframes, prototypes, accessibility, design systems |
+| **code-developer** | Implementation, debugging, refactoring, code best practices |
+| **quality-assurance** | Test architecture, quality gates, requirements traceability, risk assessment |
+| **system-architect** | System design, technology selection, API design, scalability planning |
+| **feature-planner** | Product strategy, PRDs, feature prioritization, roadmap planning |
+| **backlog-manager** | Backlog refinement, story writing, acceptance criteria, sprint planning |
+| **story-writer** | User stories, epic management, agile ceremonies, retrospectives |
+| **market-researcher** | Market analysis, competitive research, project discovery, stakeholder mapping |
+| **context-builder** | Initialize project context, discover documentation, create knowledge bases |
 
 ---
 
-## 🛠 Commands & Skills
+## 🛠 Commands Reference
 
-### Claude Code: 11 Skills + 9 Commands
+### Claude Code: 20 Total (11 Skills + 9 Commands)
 
-**Skills** (from ./skills/ directory)
-- brainstorming - Structured brainstorming with proven frameworks
-- code-review - Quality, security, maintainability review
-- condition-based-waiting - Polling-based waits to eliminate flaky tests
-- docs-builder - Comprehensive project documentation generation
-- root-cause-tracing - Trace bugs backward through call stack
-- skill-creator - Create custom reusable skills
-- subagent-spawning - TDD-aware subagent templates
-- systematic-debugging - Four-phase debugging framework
-- test-driven-development - Red-green-refactor TDD cycle
-- testing-anti-patterns - Avoid fragile, ineffective tests
-- verification-before-completion - Evidence-based task completion
+**Auto-Triggering Skills (4)**
+- `test-driven-development` - Write test first, watch fail, minimal passing code
+- `testing-anti-patterns` - Prevent mocking anti-patterns and test pollution
+- `verification-before-completion` - Run verification before claiming done
+- `subagent-spawning` - TDD-aware templates for fresh subagents
 
-**Commands** (from ./commands/ directory)
-- debug - Systematic issue investigation
-- explain - Code explanation for newcomers
-- git-commit - Intelligent commit message generation
-- optimize - Performance analysis and optimization
-- refactor - Behavior-preserving refactoring
-- review - Comprehensive code review
-- security - Vulnerability scanning
-- ship - Pre-deployment verification checklist
-- test-generate - Comprehensive test suite generation
+**Manual Skills (7)**
+- `brainstorming` - Refine rough ideas through collaborative questioning
+- `code-review` - Review implementation against requirements
+- `condition-based-waiting` - Replace timeouts with condition polling
+- `docs-builder` - Create structured /docs hierarchy
+- `root-cause-tracing` - Trace bugs backward through call stack
+- `skill-creator` - Guide for creating new skills
+- `systematic-debugging` - Four-phase debugging framework
 
-### OpenCode, Droid, Amp: 20 Commands
+**Simple Commands (9)**
+- `debug` - Systematic investigation techniques
+- `explain` - Explain code for newcomers
+- `git-commit` - Intelligent commit creation
+- `optimize` - Performance analysis
+- `refactor` - Maintain behavior while improving code
+- `review` - Comprehensive code review
+- `security` - Vulnerability scanning
+- `ship` - Pre-deployment checklist
+- `test-generate` - Test suite generation
 
-All commands from ./commands/ directory across three categories:
+### Droid/Ampcode/OpenCode: 20 Commands
 
-**Development & Testing (10)**
-- test-driven-development, testing-anti-patterns, test-generate, code-review, systematic-debugging, root-cause-tracing, debug, condition-based-waiting, verification-before-completion, subagent-spawning
+Same functionality as Claude's skills+commands, but:
+- All invoked as commands (no auto-triggering)
+- Unified command set
+- No orchestrator integration
 
-**Code Operations (6)**
-- refactor, optimize, explain, review, security, ship
-
-**Strategy & Planning (4)**
-- brainstorming, skill-creator, docs-builder, git-commit
-
-**Progressive Loading**: Commands load on-demand when invoked. Until activated, they consume minimal tokens as metadata.
+**Command Categories**:
+- **Development & Testing (10)**: test-driven-development, testing-anti-patterns, test-generate, code-review, systematic-debugging, root-cause-tracing, debug, condition-based-waiting, verification-before-completion, subagent-spawning
+- **Code Operations (6)**: refactor, optimize, explain, review, security, ship
+- **Strategy & Planning (4)**: brainstorming, skill-creator, docs-builder, git-commit
 
 ---
 
 ## 🎯 Usage Patterns
 
-### Orchestrator-First (Recommended)
+### Claude Code: Orchestrator-First (Recommended)
 
 The orchestrator analyzes your request and routes to optimal workflows automatically.
 
@@ -153,7 +158,6 @@ The orchestrator analyzes your request and routes to optimal workflows automatic
 2. Orchestrator matches intent to workflow patterns
 3. Conditional gates ask for approval before each phase
 4. Specialists execute with domain expertise
-5. Results delivered with minimal context switching
 
 **Example Flow - Feature Development**:
 ```
@@ -179,11 +183,11 @@ Orchestrator: "Start systematic implementation?" [Yes/No]
 **Bypass Options**:
 - Direct agent: `@quality-assurance review this code`
 - Role syntax: `As system-architect, design the API layer`
-- Explicit routing: Use agent mentions to skip orchestrator
+- Skills: `/test-driven-development login-feature`
 
-### 9 Pre-Defined Workflow Patterns
+### 9 Pre-Defined Workflow Patterns (Claude Only)
 
-Available in CLAUDE.md/AGENT.md files:
+Available in `claude/CLAUDE.md`:
 
 1. **Feature Discovery Flow** - Research → PRD → Tasks → Implementation
 2. **Product Definition Flow** - Strategy → Stories → Technical Assessment
@@ -197,12 +201,21 @@ Available in CLAUDE.md/AGENT.md files:
 
 Each pattern includes conditional decision points requiring user approval.
 
+### Droid/Ampcode/OpenCode: Direct Command Invocation
+
+No orchestrator - invoke commands directly:
+- `/debug <issue>`
+- `/refactor <code-section>`
+- `/test-driven-development <feature>`
+
+Subagent workflows require manual coordination.
+
 ---
 
 ## 📊 Value Proposition
 
 ### For Individual Developers
-- **Instant Expertise** - Access 11 specialist agents without hiring
+- **Instant Expertise** - Access 14 specialist agents without hiring
 - **Consistent Quality** - Best practices built into every agent
 - **Faster Iteration** - Systematic workflows reduce trial-and-error
 - **Learning Tool** - Observe expert patterns and decision-making
@@ -210,76 +223,115 @@ Each pattern includes conditional decision points requiring user approval.
 ### For Teams
 - **Standardized Processes** - Shared agent definitions ensure consistency
 - **Onboarding Acceleration** - New members learn patterns through agent interactions
-- **Documentation Culture** - Context-builder and docs-builder promote knowledge capture
+- **Documentation Culture** - context-builder and docs-builder promote knowledge capture
 - **Cross-Functional Collaboration** - Product, design, and engineering agents work together
 
 ### For Technical Leaders
 - **Scalable Expertise** - Multiply senior-level guidance across projects
 - **Quality Gates** - Built-in review and validation checkpoints
-- **Architectural Consistency** - System-architect ensures coherent design decisions
+- **Architectural Consistency** - system-architect ensures coherent design decisions
 - **Reduced Context Switching** - Specialists handle domain-specific work
 
 ---
 
-## 🔧 Platform-Specific Notes
+## 🔧 Platform Architecture
 
 ### Claude Code
-- **Skills vs Commands**: 11 skills (subdirectories) + 9 commands (.md files)
-- **Orchestrator Integration**: Reads CLAUDE.md for routing decisions
-- **Progressive Disclosure**: Uses Task tool for agent invocation
+```
+~/.claude/
+├── CLAUDE.md           # Registry + orchestrator workflows
+├── agents/             # 14 subagent implementations (*.md)
+├── skills/             # 11 skills (subdirectories with SKILL.md)
+└── commands/           # 9 commands (*.md)
+```
 
-### OpenCode
-- **Command-Only**: 20 commands in ./command/ directory
-- **Config Path**: ~/.config/opencode/
-- **Agent Path**: ./agent/ subdirectory
-
-### Amp
-- **Command-Only**: 20 commands in ./commands/ directory
-- **Config Path**: ~/.config/amp/
-- **Agent Path**: ./agents/ subdirectory
+**Features**:
+- Full subagent system with orchestrator
+- Auto-triggering skills
+- Workflow pattern matching
+- Progressive agent loading
 
 ### Droid
-- **Command-Only**: 20 commands in ./commands/ directory
-- **Config Path**: ~/.factory/
-- **Agent Path**: ./droids/ subdirectory
-- **Settings**: Requires enabling in ~/.factory/settings.json
+```
+~/.factory/
+├── AGENTS.md           # Reference doc (subagents + commands)
+└── commands/           # 20 commands (*.md)
+```
+
+**Features**:
+- Commands only (no subagent implementations)
+- Reference table for Claude's subagents
+- Direct command invocation
+
+### Ampcode
+```
+~/.config/amp/
+├── AGENT.md            # Reference doc (subagents + commands)
+└── commands/           # 20 commands (*.md)
+```
+
+**Features**:
+- Commands only (no subagent implementations)
+- Reference table for Claude's subagents
+- Direct command invocation
+
+### OpenCode
+```
+~/.config/opencode/
+├── AGENTS.md           # Reference doc (subagents + commands)
+└── command/            # 20 commands (*.md)
+```
+
+**Features**:
+- Commands only (no subagent implementations)
+- Reference table for Claude's subagents
+- Direct command invocation
 
 ---
 
-## 📚 Additional Resources
+## 📋 Frontmatter Architecture
 
-**Repository Structure**:
-```
-ai/subagentic/
-├── claude/          # Claude Code kit
-│   ├── CLAUDE.md    # Agent registry + workflows
-│   ├── agents/      # 14 agent definitions
-│   ├── skills/      # 11 skills (subdirs)
-│   └── commands/    # 9 commands (.md files)
-├── ampcode/         # Amp kit
-│   ├── AGENT.md     # Agent registry + workflows
-│   ├── agents/      # 14 agent definitions
-│   └── commands/    # 20 commands
-├── droid/           # Droid kit
-│   ├── AGENTS.md    # Agent registry + workflows
-│   ├── droids/      # 14 agent definitions
-│   └── commands/    # 20 commands
-└── opencode/        # OpenCode kit
-    ├── AGENTS.md    # Agent registry + workflows
-    ├── agent/       # 14 agent definitions
-    └── command/     # 20 commands
+All resources are self-describing via YAML frontmatter for auto-discovery:
+
+**Subagents** (`agents/*.md`):
+```yaml
+---
+id: code-developer
+title: Full Stack Developer
+description: Implement code, debug, refactor
+when_to_use: Use for code implementation, debugging, refactoring, and development best practices
+model: inherit
+color: purple
+---
 ```
 
-**Key Files**:
-- **CLAUDE.md / AGENT.md / AGENTS.md** - Agent registries with orchestrator workflows
-- **Agent definitions** - Full prompt templates with role descriptions
-- **Skills/Commands** - Reusable workflow components
+**Skills** (`skills/*/SKILL.md`):
+```yaml
+---
+id: test-driven-development
+name: test-driven-development
+description: Write test first, watch it fail, write minimal code to pass
+usage: /test-driven-development <feature-or-behavior-to-test>
+auto_trigger: true
+---
+```
 
-**Token Management**:
-- All counts shown are **full load when invoked**
-- Base conversation loads only stubs (~950 tokens for 14 agents)
-- Use `/context` command to monitor actual usage
-- Progressive disclosure prevents token bloat
+**Commands** (`commands/*.md`):
+```yaml
+---
+id: debug
+name: debug
+description: Debug an issue systematically using structured investigation techniques
+usage: /debug <issue-description>
+argument-hint: [description of the problem]
+---
+```
+
+This enables:
+- Dynamic registry building by CLIs
+- Single source of truth (no manual registries)
+- Consistent metadata across platforms
+- Easy extensibility
 
 ---
 

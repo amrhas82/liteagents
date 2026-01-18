@@ -1,7 +1,8 @@
 ---
-name: 2-generate-tasks
+id: 2-generate-tasks
+title: 2-Generate Tasks
 description: Convert PRDs into development task lists
-model: inherit
+when_to_use: Detailed Planning - use to break down the PRD into a granular, actionable task list
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---
 

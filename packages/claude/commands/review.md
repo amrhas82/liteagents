@@ -1,5 +1,8 @@
 ---
+id: review
+name: review
 description: Review code [file]
+usage: /review
 argument-hint: [file or leave empty for staged changes]
 ---
 Review $ARGUMENTS (or staged changes if not specified).

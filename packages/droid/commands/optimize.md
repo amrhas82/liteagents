@@ -1,5 +1,8 @@
 ---
+id: optimize
+name: optimize
 description: Optimize performance [target]
+usage: /optimize <target-area>
 argument-hint: [file-or-function]
 ---
 Analyze $ARGUMENTS for performance.

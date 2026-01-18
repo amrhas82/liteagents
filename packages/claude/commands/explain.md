@@ -1,5 +1,8 @@
 ---
+id: explain
+name: explain
 description: Explain [code]
+usage: /explain <code-section>
 argument-hint: [file, function, or concept]
 model: claude-3-5-haiku-20241022
 ---

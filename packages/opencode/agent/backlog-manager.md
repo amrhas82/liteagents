@@ -1,6 +1,8 @@
 ---
-name: backlog-manager
+id: backlog-manager
+title: Product Owner
 description: Manage backlog, refine stories, plan sprints
+when_to_use: Use for backlog management, story refinement, acceptance criteria, sprint planning, and prioritization decisions
 mode: subagent
 temperature: 0.4
 tools:

@@ -1,6 +1,9 @@
 ---
+id: systematic-debugging
 name: systematic-debugging
 description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes - four-phase framework (root cause investigation, pattern analysis, hypothesis testing, implementation) that ensures understanding before attempting solutions
+usage: /systematic-debugging <bug-or-error-description>
+auto_trigger: false
 ---
 
 # Systematic Debugging

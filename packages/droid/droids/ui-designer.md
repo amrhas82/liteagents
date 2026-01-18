@@ -1,6 +1,8 @@
 ---
-name: ui-designer
+id: ui-designer
+title: UX Expert
 description: Design UI/UX, wireframes, accessibility
+when_to_use: Use for UI/UX design, wireframes, prototypes, front-end specifications, and user experience optimization
 model: inherit
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---

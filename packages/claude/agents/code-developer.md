@@ -1,6 +1,8 @@
 ---
-name: code-developer
+id: code-developer
+title: Full Stack Developer
 description: Implement code, debug, refactor
+when_to_use: Use for code implementation, debugging, refactoring, and development best practices
 model: inherit
 color: purple
 ---

@@ -1,5 +1,8 @@
 ---
+id: refactor
+name: refactor
 description: Refactor [code]
+usage: /refactor <code-section>
 argument-hint: [file-or-function]
 ---
 Refactor $ARGUMENTS.

@@ -1,5 +1,8 @@
 ---
+id: ship
+name: ship
 description: Check pre-deployment
+usage: /ship
 allowed-tools: Bash(npm *), Bash(git *)
 ---
 Pre-deploy checklist:

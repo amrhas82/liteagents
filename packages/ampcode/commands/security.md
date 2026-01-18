@@ -1,5 +1,8 @@
 ---
+id: security
+name: security
 description: Scan security [target]
+usage: /security
 argument-hint: [file, directory, or leave empty for full scan]
 allowed-tools: Read, Grep, Glob
 ---

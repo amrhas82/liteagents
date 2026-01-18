@@ -1,6 +1,9 @@
 ---
+id: subagent-spawning
 name: subagent-spawning
 description: Use when spawning fresh subagents for isolated task execution. Provides TDD-aware templates for 3-process-task-list and other agents.
+usage: Used by 3-process-task-list and other agents for clean subagent execution
+auto_trigger: true
 ---
 
 ## Auto-Trigger

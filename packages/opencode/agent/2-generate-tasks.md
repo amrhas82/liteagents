@@ -1,6 +1,8 @@
 ---
-name: 2-generate-tasks
+id: 2-generate-tasks
+title: 2-Generate Tasks
 description: Convert PRDs into development task lists
+when_to_use: Detailed Planning - use to break down the PRD into a granular, actionable task list
 mode: subagent
 temperature: 0.2
 tools:

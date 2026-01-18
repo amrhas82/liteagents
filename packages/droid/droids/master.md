@@ -1,6 +1,8 @@
 ---
-name: master
+id: master
+title: Master Task Executor
 description: Execute any task without specialized persona
+when_to_use: Use when you need comprehensive expertise across all domains, running 1 off tasks that do not require a persona, or just wanting to use the same agent for many things
 model: inherit
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---

@@ -1,6 +1,8 @@
 ---
-name: feature-planner
+id: feature-planner
+title: Product Manager
 description: Create PRDs, plan features, prioritize roadmap
+when_to_use: Use for creating PRDs, product strategy, feature prioritization, roadmap planning, and stakeholder communication
 model: inherit
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---

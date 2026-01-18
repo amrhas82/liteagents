@@ -1,6 +1,8 @@
 ---
-name: 3-process-task-list
+id: 3-process-task-list
+title: 3-Process Task List
 description: Execute task lists with sequential commits
+when_to_use: Iterative Implementation - use to guide the AI to tackle one task at a time, allowing you to review and approve each change
 model: inherit
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---

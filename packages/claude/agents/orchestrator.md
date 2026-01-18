@@ -1,6 +1,8 @@
 ---
-name: orchestrator
+id: orchestrator
+title: Master Orchestrator
 description: Coordinate workflows, route to specialists
+when_to_use: Use for workflow coordination, multi-agent tasks, role switching guidance, and when unsure which specialist to consult
 model: inherit
 color: yellow
 ---

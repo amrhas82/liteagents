@@ -1,6 +1,8 @@
 ---
-name: context-builder
+id: context-builder
+title: Context Initializer
 description: Initialize project context and documentation
+when_to_use: Use to initialize Claude Code context for new/existing projects, discover and organize documentation, create CLAUDE.md and KNOWLEDGE_BASE.md for optimal token-efficient memory
 model: inherit
 color: purple
 ---

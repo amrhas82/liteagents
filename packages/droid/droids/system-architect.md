@@ -1,6 +1,8 @@
 ---
-name: system-architect
+id: system-architect
+title: Architect
 description: Design systems, select tech, plan architecture
+when_to_use: Use for system design, architecture documents, technology selection, API design, and infrastructure planning
 model: inherit
 tools: ["Read", "LS", "Grep", "Glob", "Create", "Edit", "MultiEdit", "ApplyPatch", "Execute", "WebSearch", "FetchUrl", "mcp"]
 ---

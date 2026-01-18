@@ -1,5 +1,8 @@
 ---
+id: git-commit
+name: git-commit
 description: Analyze changes and commit
+usage: /git-commit
 allowed-tools: Bash(git *)
 ---
 1. Run `git diff --staged` to see changes
