@@ -1,5 +1,4 @@
 ---
-id: docs-builder
 name: docs-builder
 description: Create comprehensive project documentation with structured /docs hierarchy
 usage: /docs-builder

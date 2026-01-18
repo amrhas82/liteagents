@@ -1,5 +1,4 @@
 ---
-id: ship
 name: ship
 description: Check pre-deployment
 usage: /ship

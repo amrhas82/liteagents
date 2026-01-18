@@ -1,5 +1,4 @@
 ---
-id: optimize
 name: optimize
 description: Optimize performance [target]
 usage: /optimize <target-area>

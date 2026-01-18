@@ -1,5 +1,4 @@
 ---
-id: review
 name: review
 description: Review code [file]
 usage: /review

@@ -1,5 +1,4 @@
 ---
-id: test-generate
 name: test-generate
 description: Generate tests [file]
 usage: /test-generate <code-section>

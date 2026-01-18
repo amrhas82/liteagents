@@ -1,5 +1,4 @@
 ---
-id: security
 name: security
 description: Scan security [target]
 usage: /security

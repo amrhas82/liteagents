@@ -1,5 +1,4 @@
 ---
-id: explain
 name: explain
 description: Explain [code]
 usage: /explain <code-section>

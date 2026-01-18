@@ -1,5 +1,4 @@
 ---
-id: refactor
 name: refactor
 description: Refactor [code]
 usage: /refactor <code-section>

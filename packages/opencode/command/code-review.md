@@ -1,5 +1,4 @@
 ---
-id: code-review
 name: code-review
 description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements - reviews implementation against plan or requirements before proceeding
 usage: /code-review <review-scope> <focus-areas>

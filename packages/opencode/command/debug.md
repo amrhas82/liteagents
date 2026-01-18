@@ -1,5 +1,4 @@
 ---
-id: debug
 name: debug
 description: Debug issue [issue]
 usage: /debug <issue-description>

@@ -1,5 +1,4 @@
 ---
-id: git-commit
 name: git-commit
 description: Analyze changes and commit
 usage: /git-commit
