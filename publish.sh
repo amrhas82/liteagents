@@ -8,6 +8,32 @@ echo "Publishing Agentic Kit"
 echo "=========================================="
 echo ""
 
+# Check for NPM_TOKEN (required for npm.js publishing with 2FA)
+NPM_PUBLISH_READY=false
+if [ -z "$NPM_TOKEN" ]; then
+    if command -v pass &> /dev/null && pass show amr/npmjs_token &> /dev/null; then
+        echo "🔑 Retrieving npm token from pass..."
+        export NPM_TOKEN=$(pass show amr/npmjs_token | head -n1)
+        echo "✓ npm token retrieved from pass (amr/npmjs_token)"
+        NPM_PUBLISH_READY=true
+    else
+        echo "⚠️  NPM_TOKEN not set and not found in pass (amr/npmjs_token)"
+        echo "   npm.js publishing requires a granular access token with 2FA bypass"
+        echo "   Create one at: https://www.npmjs.com/settings/amrhas82/tokens"
+        echo "   Then: pass insert amr/npmjs_token"
+    fi
+else
+    echo "✓ NPM_TOKEN is set"
+    NPM_PUBLISH_READY=true
+fi
+
+# Set npm auth token if available
+if [ "$NPM_PUBLISH_READY" = true ]; then
+    npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+fi
+
+echo ""
+
 # Check if GITHUB_TOKEN is set
 if [ -z "$GITHUB_TOKEN" ]; then
     echo "⚠️  GITHUB_TOKEN is not set"
