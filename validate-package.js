@@ -232,7 +232,15 @@ function validateToolPackages() {
         } else {
           // Validate variant has required fields
           const v = variants[variant];
-          const requiredFields = ['name', 'description', 'agents', 'skills'];
+          const requiredFields = ['name', 'description', 'agents'];
+
+          // Check for skills or commands field (tools have different field names)
+          // Claude uses 'skills' + 'commands', others use just 'commands'
+          const hasSkillsOrCommands = v.skills !== undefined || v.commands !== undefined;
+          if (!hasSkillsOrCommands) {
+            error(`${tool}/${variant}: Missing 'skills' or 'commands' field`);
+          }
+
           requiredFields.forEach(field => {
             if (v[field] === undefined) {
               error(`${tool}/${variant}: Missing field '${field}'`);
