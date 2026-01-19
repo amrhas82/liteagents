@@ -1107,48 +1107,89 @@ ${colors.yellow}Press Enter to begin or Ctrl+C to exit${colors.reset}
   }
   
   async selectTools() {
-    console.log(`\n${colors.bright}Which tool(s) do you want to install?${colors.reset}\n`);
+    console.log(`\n${colors.bright}Select tools to install${colors.reset}\n`);
+    console.log(`${colors.cyan}(↑↓ navigate, space=toggle, a=all, enter=confirm)${colors.reset}\n`);
 
-    // Display tools in a simple list
-    this.tools.forEach((tool) => {
-      console.log(`  ${colors.cyan}${tool.id.padEnd(10)}${colors.reset} - ${tool.description}`);
-    });
+    // Interactive checkbox selection
+    const selected = new Set(['claude']); // Default to claude
+    let currentIndex = 0;
 
-    console.log(`\n${colors.yellow}Enter tool IDs separated by spaces (e.g., "claude opencode")${colors.reset}`);
-    console.log(`${colors.yellow}Default: claude${colors.reset}`);
+    const renderList = () => {
+      // Clear previous list
+      process.stdout.write('\x1b[' + (this.tools.length + 1) + 'A'); // Move up
+      process.stdout.write('\x1b[0J'); // Clear from cursor down
 
-    return new Promise(resolve => {
-      this.rl.question(`\n${colors.bright}Tools:${colors.reset} `, (answer) => {
-        if (answer.trim()) {
-          const selected = answer.toLowerCase().split(/\s+/);
-          this.selections.tools = selected.filter(id =>
-            this.tools.some(tool => tool.id === id)
-          );
+      this.tools.forEach((tool, index) => {
+        const isSelected = selected.has(tool.id);
+        const isCurrent = index === currentIndex;
+        const checkbox = isSelected ? '●' : '○';
+        const pointer = isCurrent ? '»' : ' ';
+        const color = isCurrent ? colors.cyan : colors.reset;
 
-          // Show invalid tool IDs if any
-          const invalid = selected.filter(id =>
-            !this.tools.some(tool => tool.id === id)
-          );
-          if (invalid.length > 0) {
-            console.log(`${colors.yellow}Warning: Unrecognized tool IDs ignored: ${invalid.join(', ')}${colors.reset}`);
-          }
-        }
-
-        // Default to claude if nothing selected
-        if (this.selections.tools.length === 0) {
-          this.selections.tools = ['claude'];
-          console.log(`${colors.blue}Using default: claude${colors.reset}`);
-        }
-
-        // Show selection summary
-        console.log(`\n${colors.green}Installing:${colors.reset}`);
-        this.selections.tools.forEach(id => {
-          const tool = this.tools.find(t => t.id === id);
-          console.log(`  ${colors.green}✓${colors.reset} ${tool.name} ${colors.cyan}(14 agents + 20 commands)${colors.reset}`);
-        });
-
-        resolve();
+        console.log(`${pointer} ${color}${checkbox}   ${tool.name.padEnd(20)}${colors.reset} - ${tool.description}`);
       });
+      console.log(''); // Empty line at bottom
+    };
+
+    // Initial render
+    this.tools.forEach((tool, index) => {
+      const isSelected = selected.has(tool.id);
+      const isCurrent = index === currentIndex;
+      const checkbox = isSelected ? '●' : '○';
+      const pointer = isCurrent ? '»' : ' ';
+      const color = isCurrent ? colors.cyan : colors.reset;
+
+      console.log(`${pointer} ${color}${checkbox}   ${tool.name.padEnd(20)}${colors.reset} - ${tool.description}`);
+    });
+    console.log('');
+
+    return new Promise((resolve) => {
+      const stdin = process.stdin;
+      stdin.setRawMode(true);
+      stdin.resume();
+      stdin.setEncoding('utf8');
+
+      const onKeypress = (key) => {
+        if (key === '\u0003' || key === '\u001b') { // Ctrl+C or ESC
+          stdin.setRawMode(false);
+          stdin.pause();
+          process.exit(0);
+        } else if (key === '\r' || key === '\n') { // Enter
+          stdin.setRawMode(false);
+          stdin.removeListener('data', onKeypress);
+
+          this.selections.tools = Array.from(selected);
+
+          // Show selection summary
+          console.log(`${colors.green}Installing ${this.selections.tools.length} tool(s):${colors.reset}`);
+          this.selections.tools.forEach(id => {
+            const tool = this.tools.find(t => t.id === id);
+            console.log(`  ${colors.green}✓${colors.reset} ${tool.name} ${colors.cyan}(14 agents + 20 commands)${colors.reset}`);
+          });
+          console.log('');
+
+          resolve();
+        } else if (key === ' ') { // Space - toggle
+          const toolId = this.tools[currentIndex].id;
+          if (selected.has(toolId)) {
+            selected.delete(toolId);
+          } else {
+            selected.add(toolId);
+          }
+          renderList();
+        } else if (key === 'a' || key === 'A') { // Select all
+          this.tools.forEach(tool => selected.add(tool.id));
+          renderList();
+        } else if (key === '\u001b[A') { // Up arrow
+          currentIndex = currentIndex > 0 ? currentIndex - 1 : this.tools.length - 1;
+          renderList();
+        } else if (key === '\u001b[B') { // Down arrow
+          currentIndex = currentIndex < this.tools.length - 1 ? currentIndex + 1 : 0;
+          renderList();
+        }
+      };
+
+      stdin.on('data', onKeypress);
     });
   }
 
