@@ -83,8 +83,8 @@ class InteractiveInstaller {
     
     this.variants = [
       { id: 'lite', name: 'Lite', agents: 3, skills: 0, description: 'Minimal setup, CI/CD' },
-      { id: 'standard', name: 'Standard', agents: 13, skills: 8, description: 'Most users, general dev' },
-      { id: 'pro', name: 'Pro', agents: 13, skills: 14, description: 'Advanced users, full features' }
+      { id: 'standard', name: 'Standard', agents: 14, skills: 8, description: 'Most users, general dev' },
+      { id: 'pro', name: 'Pro', agents: 14, skills: 20, description: 'Full installation, all features' }
     ];
   }
 
@@ -198,8 +198,8 @@ ${colors.bright}TOOLS:${colors.reset}
 
 ${colors.bright}VARIANTS:${colors.reset}
   ${colors.cyan}lite${colors.reset}       - Minimal setup (3 agents, 0 skills) - For CI/CD
-  ${colors.cyan}standard${colors.reset}   - Standard setup (13 agents, 8 skills) - For most users
-  ${colors.cyan}pro${colors.reset}        - Full setup (13 agents, 22 skills) - For advanced users
+  ${colors.cyan}standard${colors.reset}   - Standard setup (14 agents, 8 skills) - For most users
+  ${colors.cyan}pro${colors.reset}        - Full setup (14 agents, 20 commands) - Default for everyone
 
 ${colors.bright}EXAMPLES:${colors.reset}
   # Interactive installation (default)
@@ -680,10 +680,9 @@ ${colors.bright}For more information, visit:${colors.reset}
     }
 
     // Display summary
-    const variantInfo = this.variants.find(v => v.id === variant);
     console.log(`${colors.bright}Installation Summary:${colors.reset}`);
-    console.log(`${colors.cyan}Variant:${colors.reset} ${variantInfo.name} (${variantInfo.agents} agents, ${variantInfo.skills} skills)`);
-    console.log(`${colors.cyan}Tools:${colors.reset} ${this.selections.tools.join(', ')}`);
+    console.log(`${colors.cyan}Installing:${colors.reset} ${this.selections.tools.join(', ')}`);
+    console.log(`${colors.cyan}Each tool includes:${colors.reset} 14 agents + 20 commands`);
     console.log('');
 
     for (const toolId of this.selections.tools) {
@@ -1386,11 +1385,10 @@ ${colors.yellow}Press Enter to begin or Ctrl+C to exit${colors.reset}
   async showSummary() {
     console.log(`\n${colors.bright}Step 4/4 — Installation Summary${colors.reset}\n`);
 
-    const variant = this.variants.find(v => v.id === this.selections.variant);
-    console.log(`Package: ${variant.name} (${variant.agents} agents, ${variant.skills} skills)`);
-    console.log(`Tools: ${this.selections.tools.map(id =>
+    console.log(`Installing: ${this.selections.tools.map(id =>
       this.tools.find(t => t.id === id).name
-    ).join(', ')}\n`);
+    ).join(', ')}`);
+    console.log(`Each tool includes: 14 agents + 20 commands\n`);
 
     console.log('Installation Details:');
     console.log('┌─────────────┬──────────────────┬──────────┬─────────────┐');
