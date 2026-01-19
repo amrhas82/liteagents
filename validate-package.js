@@ -143,9 +143,7 @@ function validateInstallerSystem() {
     'installer/installation-engine.js',
     'installer/path-manager.js',
     'installer/verification-system.js',
-    'installer/state-manager.js',
-    'installer/report-template.js',
-    'installer/telemetry.js'
+    'installer/report-template.js'
   ];
 
   installerFiles.forEach(file => {
