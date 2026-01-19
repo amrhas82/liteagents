@@ -50,3 +50,4 @@ test-installation-*/
 
 # Aurora runtime data
 .aurora/
+/tests/
