@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.11.1] - 2026-01-20
+
+### Fixed
+- Added missing command definitions to `packages/opencode/opencode.jsonc` (debug, explain, git-commit, optimize, refactor, review, security, ship, stash, test-generate, subagent-spawning)
+
+---
+
 ## [1.11.0] - 2026-01-20
 
 ### Added
@@ -397,6 +404,7 @@ npx @amrhas82/agentic-kit
 
 | Version | Date | Key Features |
 |---------|------|--------------|
+| **1.11.1** | 2026-01-20 | Fixed missing commands in opencode.jsonc |
 | **1.11.0** | 2026-01-20 | Added /stash command (21 total commands) |
 | **1.2.1** | 2025-11-05 | Package optimization, repository cleanup |
 | **1.2.0** | 2025-11-05 | Interactive multi-tool installer, 22 skills, 4 tools support, 254 tests |
