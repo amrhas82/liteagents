@@ -17,6 +17,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.3.0] - 2026-01-22
+
+### Removed
+- Removed `subagent-spawning` skill (functionality integrated into agents)
+
+### Changed
+- Updated command/skill count from 21 to 20 across all documentation
+- README.md: Updated command counts and removed subagent-spawning from skill list
+- installer/cli.js: Updated welcome banner to reflect 20 commands
+- package.json: Updated description to reflect 20 commands
+- packages/subagentic-manual.md: Updated command counts
+
+---
+
 ## [1.11.1] - 2026-01-20
 
 ### Fixed
@@ -404,6 +418,7 @@ npx @amrhas82/agentic-kit
 
 | Version | Date | Key Features |
 |---------|------|--------------|
+| **2.3.0** | 2026-01-22 | Removed subagent-spawning skill (20 commands) |
 | **1.11.1** | 2026-01-20 | Fixed missing commands in opencode.jsonc |
 | **1.11.0** | 2026-01-20 | Added /stash command (21 total commands) |
 | **1.2.1** | 2025-11-05 | Package optimization, repository cleanup |

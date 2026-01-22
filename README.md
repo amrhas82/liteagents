@@ -9,7 +9,7 @@
          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝    ╚═╝  ╚═╝╚═╝   ╚═╝
 ```
 
-**AI development toolkit with 11 specialized agents and 21 commands per tool**
+**AI development toolkit with 11 specialized agents and 20 commands per tool**
 
 </div>
 
@@ -36,15 +36,15 @@ npm install -g @amrhas82/agentic-kit
 agentic-kit
 
 # Choose tool(s): claude, opencode, ampcode, or droid
-# Each tool gets 11 agents + 21 commands
+# Each tool gets 11 agents + 20 commands
 ```
 
 ### Supported Tools
 
-- **Claude Code** - 11 subagents + 11 skills + 10 commands
-- **Opencode** - 11 agent references + 21 commands
-- **Ampcode** - 11 subagents + 11 skills + 10 commands
-- **Droid** - 11 agent references + 21 commands
+- **Claude Code** - 11 subagents + 10 skills + 10 commands
+- **Opencode** - 11 agent references + 20 commands
+- **Ampcode** - 11 subagents + 10 skills + 10 commands
+- **Droid** - 11 agent references + 20 commands
 
 **Key Difference:**
 - **Claude Code / Ampcode**: Full subagent system with orchestrator + skills (auto-triggering)
@@ -86,13 +86,12 @@ agentic-kit
 - **system-architect** - System design, technology selection, API design, scalability planning
 - **ui-designer** - UI/UX design, wireframes, prototypes, accessibility, design systems
 
-### 21 Commands/Skills
+### 20 Commands/Skills
 
-**Auto-Triggering Skills (4)** - Claude Code only:
+**Auto-Triggering Skills (3)** - Claude Code only:
 - **test-driven-development** - Write test first, watch fail, minimal passing code
 - **testing-anti-patterns** - Prevent mocking anti-patterns
 - **verification-before-completion** - Verify before claiming done
-- **subagent-spawning** - TDD-aware templates for fresh subagents
 
 **Manual Skills/Commands (17):**
 - **brainstorming** - Structured brainstorming sessions
@@ -157,7 +156,7 @@ agentic-kit
 ## 📊 Stats
 
 - **11** Specialized Agents
-- **21** Workflow Commands & Skills
+- **20** Workflow Commands & Skills
 - **4** Supported Tools (Claude, Opencode, Ampcode, Droid)
 - **MIT** License
 

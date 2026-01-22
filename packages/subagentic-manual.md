@@ -31,10 +31,10 @@ Install for your platform:
 
 | Platform | Installation | What's Included |
 |----------|--------------|-----------------|
-| **Claude Code** | `cp -r claude/* ~/.claude/` | 11 subagents + 11 skills + 10 commands |
-| **Droid** | `cp -r droid/* ~/.factory/` | 21 commands (subagent references) |
-| **Ampcode** | `cp -r ampcode/* ~/.config/amp/` | 11 subagents + 11 skills + 10 commands |
-| **OpenCode** | `cp -r opencode/* ~/.config/opencode/` | 21 commands (subagent references) |
+| **Claude Code** | `cp -r claude/* ~/.claude/` | 11 subagents + 10 skills + 10 commands |
+| **Droid** | `cp -r droid/* ~/.factory/` | 20 commands (subagent references) |
+| **Ampcode** | `cp -r ampcode/* ~/.config/amp/` | 11 subagents + 10 skills + 10 commands |
+| **OpenCode** | `cp -r opencode/* ~/.config/opencode/` | 20 commands (subagent references) |
 
 **Key Difference**:
 - **Claude Code / Ampcode** implement full subagent system with orchestrator
@@ -50,7 +50,7 @@ Install for your platform:
 - 3 Workflow Agents (PRD, Tasks, Implementation)
 - 8 Specialist Agents (UX, QA, Architecture, Product, Development, etc.)
 
-**11 Skills** - Auto-triggering workflow components
+**10 Skills** - Auto-triggering workflow components
 - test-driven-development, testing-anti-patterns, verification-before-completion (auto-trigger)
 - brainstorming, code-review, systematic-debugging, docs-builder, etc.
 
@@ -64,7 +64,7 @@ Install for your platform:
 
 ### Droid/OpenCode (Commands Only)
 
-**21 Commands** - All workflow capabilities in command form
+**20 Commands** - All workflow capabilities in command form
 - Combines skills + commands into unified command set
 - Same functionality, different invocation model (no auto-triggering)
 - Includes reference documentation for subagents
@@ -102,13 +102,12 @@ Install for your platform:
 
 ## Commands Reference
 
-### Claude Code / Ampcode: 21 Total (11 Skills + 10 Commands)
+### Claude Code / Ampcode: 20 Total (10 Skills + 10 Commands)
 
-**Auto-Triggering Skills (4)**
+**Auto-Triggering Skills (3)**
 - `test-driven-development` - Write test first, watch fail, minimal passing code
 - `testing-anti-patterns` - Prevent mocking anti-patterns and test pollution
 - `verification-before-completion` - Run verification before claiming done
-- `subagent-spawning` - TDD-aware templates for fresh subagents
 
 **Manual Skills (7)**
 - `brainstorming` - Refine rough ideas through collaborative questioning
@@ -131,7 +130,7 @@ Install for your platform:
 - `stash` - Save session context for compaction recovery or handoffs
 - `test-generate` - Test suite generation
 
-### Droid/OpenCode: 21 Commands
+### Droid/OpenCode: 20 Commands
 
 Same functionality as skills+commands, but:
 - All invoked as commands (no auto-triggering)
@@ -139,7 +138,7 @@ Same functionality as skills+commands, but:
 - No orchestrator integration
 
 **Command Categories**:
-- **Development & Testing (10)**: test-driven-development, testing-anti-patterns, test-generate, code-review, systematic-debugging, root-cause-tracing, debug, condition-based-waiting, verification-before-completion, subagent-spawning
+- **Development & Testing (9)**: test-driven-development, testing-anti-patterns, test-generate, code-review, systematic-debugging, root-cause-tracing, debug, condition-based-waiting, verification-before-completion
 - **Code Operations (6)**: refactor, optimize, explain, review, security, ship
 - **Session & Planning (5)**: brainstorming, skill-creator, docs-builder, git-commit, stash
 
@@ -265,7 +264,7 @@ Subagent workflows require manual coordination.
 ```
 ~/.factory/
 ├── AGENTS.md           # Reference doc (subagents + commands)
-└── commands/           # 21 commands (*.md)
+└── commands/           # 20 commands (*.md)
 ```
 
 **Features**:
@@ -277,7 +276,7 @@ Subagent workflows require manual coordination.
 ```
 ~/.config/opencode/
 ├── AGENTS.md           # Reference doc (subagents + commands)
-└── command/            # 21 commands (*.md)
+└── command/            # 20 commands (*.md)
 ```
 
 **Features**:
