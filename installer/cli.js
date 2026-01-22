@@ -73,9 +73,14 @@ class InteractiveInstaller {
   async askInstallOrUninstall() {
     console.log('\nWhat would you like to do?\n');
     console.log('  1. Install tools');
-    console.log('  2. Uninstall tools\n');
+    console.log('  2. Uninstall tools');
+    console.log('  3. Exit\n');
 
-    const choice = await this.askQuestion('Enter choice (1 or 2): ', '1');
+    const choice = await this.askQuestion('Enter choice (1-3): ', '1');
+    if (choice === '3') {
+      console.log('\nGoodbye!\n');
+      process.exit(0);
+    }
     return choice === '2' ? 'uninstall' : 'install';
   }
 
@@ -451,7 +456,7 @@ ${colors.bright}${colors.cyan}██╔══██║██║   ██║█�
 ${colors.bright}${colors.cyan}██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║   ██║╚██████╗    ██║  ██╗██║   ██║${colors.reset}
 ${colors.bright}${colors.cyan}╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝    ╚═╝  ╚═╝╚═╝   ╚═╝${colors.reset}
 
-${colors.bright}v2.3.2 | 11 agents + 20 commands per tool${colors.reset}
+${colors.bright}v2.3.3 | 11 agents + 20 commands per tool${colors.reset}
     `);
   }
 
