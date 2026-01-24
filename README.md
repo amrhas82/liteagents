@@ -29,14 +29,16 @@ Specialized AI agents and workflow commands for product management, agile develo
 ## 🚀 Quick Start
 
 ```bash
-# Install
-npm install -g liteagents
+# Option 1: NPX (recommended)
+npx liteagents
 
-# Run installer
+# Option 2: Global install (never use sudo)
+npm install -g liteagents
 liteagents
 
-# Choose tool(s): claude, opencode, ampcode, or droid
-# Each tool gets 11 agents + 20 commands
+# If permission errors:
+# mkdir -p ~/.npm-global && npm config set prefix '~/.npm-global'
+# echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
 ```
 
 ### Supported Tools
