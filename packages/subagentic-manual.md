@@ -264,7 +264,7 @@ Subagent workflows require manual coordination.
 ```
 ~/.factory/
 ├── AGENTS.md           # Reference doc (subagents + commands)
-└── commands/           # 20 commands (*.md)
+└── commands/           # 21 commands (*.md)
 ```
 
 **Features**:
@@ -276,7 +276,7 @@ Subagent workflows require manual coordination.
 ```
 ~/.config/opencode/
 ├── AGENTS.md           # Reference doc (subagents + commands)
-└── command/            # 20 commands (*.md)
+└── command/            # 21 commands (*.md)
 ```
 
 **Features**:

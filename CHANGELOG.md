@@ -17,6 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.4.7] - 2026-02-02
+
+### Changed
+- **docs-builder skill** - Enhanced with reorganization capabilities
+  - Added Fresh vs Existing mode detection (auto-detects if `/docs` already has content)
+  - New archive tier (`/docs/archive/`) for old/unclear documentation
+  - Categorization workflow: KEEP, CONSOLIDATE, or ARCHIVE existing files
+  - Heuristics for automatic categorization based on filename patterns and content
+  - Consolidation logic for merging duplicate content
+  - Updated across all packages (claude, opencode, ampcode, droid)
+
+---
+
 ## [2.4.1] - 2026-01-24
 
 ### Changed - Package Rebranding
@@ -463,6 +476,7 @@ npx liteagents
 
 | Version | Date | Key Features |
 |---------|------|--------------|
+| **2.4.7** | 2026-02-02 | Enhanced docs-builder skill with reorganization capabilities |
 | **2.3.0** | 2026-01-22 | Removed subagent-spawning skill (20 commands) |
 | **1.11.1** | 2026-01-20 | Fixed missing commands in opencode.jsonc |
 | **1.11.0** | 2026-01-20 | Added /stash command (21 total commands) |
