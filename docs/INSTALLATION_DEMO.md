@@ -288,7 +288,7 @@ Next steps:
 
 Documentation:
   • Installation guide: /home/user/.claude/README.md
-  • Troubleshooting: https://github.com/amrhas82/liteagents/docs/INSTALLER_GUIDE.md
+  • Troubleshooting: https://github.com/hamr0/liteagents/docs/INSTALLER_GUIDE.md
 
 Thank you for installing Agentic Kit!
 ```

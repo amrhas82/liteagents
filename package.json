@@ -44,16 +44,16 @@
     "cli",
     "variant-system"
   ],
-  "author": "amrhas82 <avoidaccess@msn.com>",
+  "author": "hamr0 <avoidaccess@msn.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amrhas82/liteagents.git"
+    "url": "https://github.com/hamr0/liteagents.git"
   },
   "bugs": {
-    "url": "https://github.com/amrhas82/liteagents/issues"
+    "url": "https://github.com/hamr0/liteagents/issues"
   },
-  "homepage": "https://github.com/amrhas82/liteagents#readme",
+  "homepage": "https://github.com/hamr0/liteagents#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"

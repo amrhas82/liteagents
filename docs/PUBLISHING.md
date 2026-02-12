@@ -96,7 +96,7 @@ Claude Code doesn't have a centralized official Anthropic marketplace yet. There
 Users can install directly from GitHub without marketplace approval:
 
 ```
-/plugin add github:amrhas82/liteagents
+/plugin add github:hamr0/liteagents
 ```
 
 **No submission required!** Works as soon as you push to GitHub.
@@ -113,12 +113,12 @@ Host your own marketplace catalog: `.claude-plugin/marketplace.json`
 ```json
 {
   "name": "liteagents Official",
-  "owner": "amrhas82",
+  "owner": "hamr0",
   "description": "Lightweight CLI agents for development",
   "plugins": [
     {
       "name": "liteagents",
-      "source": "github:amrhas82/liteagents",
+      "source": "github:hamr0/liteagents",
       "description": "Lightweight deterministic CLI agents"
     }
   ]
@@ -127,7 +127,7 @@ Host your own marketplace catalog: `.claude-plugin/marketplace.json`
 
 Users install via:
 ```
-/plugin marketplace add github:amrhas82/liteagents
+/plugin marketplace add github:hamr0/liteagents
 ```
 
 ### Option 3: Submit to Community Marketplaces
@@ -221,7 +221,7 @@ npm login
 
 #### GitHub Install Not Working
 
-**Problem:** Users can't install via `/plugin add github:amrhas82/liteagents`
+**Problem:** Users can't install via `/plugin add github:hamr0/liteagents`
 
 **Checklist:**
 - [ ] Repository is public
@@ -245,7 +245,7 @@ Before publishing a new release:
 - [ ] Changes pushed to GitHub with tags
 - [ ] Published to npm: `./scripts/publish.sh`
 - [ ] Verified npm installation: `npm install -g liteagents`
-- [ ] Verified GitHub installation: `/plugin add github:amrhas82/liteagents`
+- [ ] Verified GitHub installation: `/plugin add github:hamr0/liteagents`
 
 ---
 
@@ -254,7 +254,7 @@ Before publishing a new release:
 After publishing, your package will be available at:
 
 - **npm:** https://www.npmjs.com/package/liteagents
-- **GitHub Repository:** https://github.com/amrhas82/liteagents
+- **GitHub Repository:** https://github.com/hamr0/liteagents
 
 ## Support & Resources
 

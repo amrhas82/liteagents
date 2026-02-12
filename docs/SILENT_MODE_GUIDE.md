@@ -466,7 +466,7 @@ If you encounter issues:
 2. Review the installation log at `~/.liteagents-install.log`
 3. Run with `--help` to see all available options
 4. Try interactive mode first to diagnose issues
-5. Report issues at: https://github.com/amrhas82/liteagents/issues
+5. Report issues at: https://github.com/hamr0/liteagents/issues
 
 ## Best Practices
 

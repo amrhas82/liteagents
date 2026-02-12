@@ -10,12 +10,12 @@ This document explains **where** Agentic Kit files get installed depending on th
 
 **Command:**
 ```bash
-/plugin add github:amrhas82/liteagents
+/plugin add github:hamr0/liteagents
 ```
 
 **Install Location:**
 ```
-~/.config/claude-code/plugins/github-amrhas82-liteagents/
+~/.config/claude-code/plugins/github-hamr0-liteagents/
 ```
 
 **What's Installed:**
@@ -221,7 +221,7 @@ npm root -g
 
 ### Claude Code Plugin
 ```bash
-/plugin remove github-amrhas82-liteagents
+/plugin remove github-hamr0-liteagents
 ```
 
 ### npm Local
@@ -259,12 +259,12 @@ https://registry.npmjs.org/liteagents/-/liteagents-1.1.0.tgz
 
 ### GitHub Repository
 ```
-https://github.com/amrhas82/liteagents
+https://github.com/hamr0/liteagents
 ```
 
 Claude Code clones from:
 ```
-git clone https://github.com/amrhas82/liteagents.git
+git clone https://github.com/hamr0/liteagents.git
 ```
 
 ---

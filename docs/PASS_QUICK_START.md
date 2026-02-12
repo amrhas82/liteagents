@@ -84,7 +84,7 @@ git push origin main --tags
 
 # 5. Verify
 # - npm.js: https://www.npmjs.com/package/liteagents
-# - GitHub: https://github.com/amrhas82/liteagents/packages
+# - GitHub: https://github.com/hamr0/liteagents/packages
 ```
 
 ---

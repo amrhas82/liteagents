@@ -300,8 +300,8 @@ This release represents a significant milestone in making Agentic Kit more acces
 
 ## 📞 Support
 
-- **Documentation**: https://github.com/amrhas82/liteagents/docs
-- **Issues**: https://github.com/amrhas82/liteagents/issues
+- **Documentation**: https://github.com/hamr0/liteagents/docs
+- **Issues**: https://github.com/hamr0/liteagents/issues
 - **Security**: See [SECURITY.md](docs/SECURITY.md) for vulnerability reporting
 
 ---

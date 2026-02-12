@@ -23,7 +23,7 @@ Production-ready AI agent framework providing specialized subagents, workflow co
 
 Clone the toolkit:
 ```bash
-git clone https://github.com/amrhas82/agentic-toolkit
+git clone https://github.com/hamr0/agentic-toolkit
 cd agentic-toolkit/ai/subagentic
 ```
 
@@ -363,5 +363,5 @@ See repository for contribution guidelines.
 ---
 
 **License**: [Specify license]
-**Repository**: https://github.com/amrhas82/agentic-toolkit
-**Issues**: https://github.com/amrhas82/agentic-toolkit/issues
+**Repository**: https://github.com/hamr0/agentic-toolkit
+**Issues**: https://github.com/hamr0/agentic-toolkit/issues

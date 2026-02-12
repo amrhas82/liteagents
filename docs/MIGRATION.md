@@ -365,7 +365,7 @@ After migrating, verify:
 If you encounter issues during migration:
 
 1. **Check Documentation**: Review this guide and INSTALLER_GUIDE.md
-2. **GitHub Issues**: https://github.com/amrhas82/liteagents/issues
+2. **GitHub Issues**: https://github.com/hamr0/liteagents/issues
 3. **Debug Mode**: Run with `DEBUG=* node installer/cli.js`
 4. **Manual Migration**: Follow manual migration steps above
 

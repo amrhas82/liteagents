@@ -63,12 +63,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.4.1] - 2026-01-24
 
 ### Changed - Package Rebranding
-- **BREAKING:** Package renamed from `@amrhas82/agentic-kit` to `liteagents` (unscoped)
+- **BREAKING:** Package renamed from `@hamr0/agentic-kit` to `liteagents` (unscoped)
   - Better reflects lightweight, CLI-focused nature
   - Easier installation: `npm install -g liteagents`
   - Commands: `liteagents` and `liteag` (shorthand)
 - **Repository:** Renamed from `agentic-kit` to `liteagents` on GitHub
-  - New URL: https://github.com/amrhas82/liteagents
+  - New URL: https://github.com/hamr0/liteagents
   - Old URLs redirect automatically
 
 ### Removed
@@ -89,10 +89,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `docs/PUBLISHING.md` simplified to focus on npm
 
 ### Migration Guide
-For users of `@amrhas82/agentic-kit`:
+For users of `@hamr0/agentic-kit`:
 ```bash
 # Uninstall old package
-npm uninstall -g @amrhas82/agentic-kit
+npm uninstall -g @hamr0/agentic-kit
 
 # Install new package
 npm install -g liteagents
@@ -101,7 +101,7 @@ npm install -g liteagents
 liteagents  # or 'liteag' for shorthand
 ```
 
-Old package `@amrhas82/agentic-kit` will be deprecated with migration message.
+Old package `@hamr0/agentic-kit` will be deprecated with migration message.
 
 ---
 
@@ -376,8 +376,8 @@ Old package `@amrhas82/agentic-kit` will be deprecated with migration message.
 
 ### Fixed
 - Skill count - Corrected Pro variant from 16 to 14 skills
-- Repository URLs - Updated to `github.com/amrhas82/liteagents`
-- Author info - Updated to `amrhas82 <avoidaccess@msn.com>`
+- Repository URLs - Updated to `github.com/hamr0/liteagents`
+- Author info - Updated to `hamr0 <avoidaccess@msn.com>`
 - All variant manifests - Added session-start hook
 
 ### Removed
@@ -396,8 +396,8 @@ Old package `@amrhas82/agentic-kit` will be deprecated with migration message.
 
 **Distribution:**
 - npm package: `liteagents`
-- GitHub: `github.com/amrhas82/liteagents`
-- Direct install: `/plugin add github:amrhas82/liteagents`
+- GitHub: `github.com/hamr0/liteagents`
+- Direct install: `/plugin add github:hamr0/liteagents`
 - npx support: `npx liteagents` or `npx agkit`
 
 **Infrastructure:**
@@ -455,7 +455,7 @@ liteagents
 **To Upgrade:**
 ```bash
 # Via GitHub
-/plugin update github:amrhas82/liteagents
+/plugin update github:hamr0/liteagents
 
 # Via npm
 npm update liteagents
@@ -491,7 +491,7 @@ liteagents install
 **To Upgrade:**
 ```bash
 # Via GitHub
-/plugin update github:amrhas82/liteagents
+/plugin update github:hamr0/liteagents
 
 # Via npm
 npm update liteagents
@@ -519,12 +519,12 @@ npx liteagents
 
 ## Links
 
-- **GitHub**: https://github.com/amrhas82/liteagents
+- **GitHub**: https://github.com/hamr0/liteagents
 - **npm**: https://www.npmjs.com/package/liteagents
-- **Issues**: https://github.com/amrhas82/liteagents/issues
-- **Releases**: https://github.com/amrhas82/liteagents/releases
+- **Issues**: https://github.com/hamr0/liteagents/issues
+- **Releases**: https://github.com/hamr0/liteagents/releases
 
 ---
 
-**Maintained by**: amrhas82
+**Maintained by**: hamr0
 **License**: MIT

@@ -1279,11 +1279,11 @@ cat ~/.liteagents-install.log
 ```
 
 2. **File an issue**:
-   - GitHub: https://github.com/amrhas82/liteagents/issues
+   - GitHub: https://github.com/hamr0/liteagents/issues
    - Include: OS, Node.js version, error message, installation log
 
 3. **Community support**:
-   - Discussions: https://github.com/amrhas82/liteagents/discussions
+   - Discussions: https://github.com/hamr0/liteagents/discussions
    - Discord: [link if available]
 
 ---
@@ -1575,12 +1575,12 @@ liteagents install
 Need help? Here's how to get support:
 
 1. **Documentation**: Check this guide and related docs
-2. **Issues**: https://github.com/amrhas82/liteagents/issues
-3. **Discussions**: https://github.com/amrhas82/liteagents/discussions
+2. **Issues**: https://github.com/hamr0/liteagents/issues
+3. **Discussions**: https://github.com/hamr0/liteagents/discussions
 4. **Email**: support@liteagents.dev (if available)
 
 ---
 
 **Last Updated**: 2025-11-04
 **Installer Version**: 1.2.0
-**Maintainer**: @amrhas82
+**Maintainer**: @hamr0

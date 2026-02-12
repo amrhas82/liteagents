@@ -176,7 +176,7 @@ Anonymous usage statistics help us:
 
 If you have questions about our privacy policy or data collection:
 
-- **GitHub Issues**: https://github.com/amrhas82/liteagents/issues
+- **GitHub Issues**: https://github.com/hamr0/liteagents/issues
 - **Review Code**: Our telemetry code is open source in `installer/telemetry.js`
 - **Request Clarification**: Open an issue if anything is unclear
 

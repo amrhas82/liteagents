@@ -16,9 +16,9 @@
 
 **Supported Tools:**
 [![Claude](https://img.shields.io/badge/Claude-Supported-blue?logo=anthropic)](https://claude.ai)
-[![Opencode](https://img.shields.io/badge/Opencode-Supported-green)](https://github.com/amrhas82/opencode)
-[![Ampcode](https://img.shields.io/badge/Ampcode-Supported-orange)](https://github.com/amrhas82/ampcode)
-[![Droid](https://img.shields.io/badge/Droid-Supported-red)](https://github.com/amrhas82/droid)
+[![Opencode](https://img.shields.io/badge/Opencode-Supported-green)](https://github.com/hamr0/opencode)
+[![Ampcode](https://img.shields.io/badge/Ampcode-Supported-orange)](https://github.com/hamr0/ampcode)
+[![Droid](https://img.shields.io/badge/Droid-Supported-red)](https://github.com/hamr0/droid)
 
 </div>
 
@@ -183,15 +183,15 @@ Lightweight session memory that learns from your usage patterns.
 ## 🔗 Links
 
 - **npm:** https://www.npmjs.com/package/liteagents
-- **GitHub:** https://github.com/amrhas82/liteagents
-- **Issues:** https://github.com/amrhas82/liteagents/issues
+- **GitHub:** https://github.com/hamr0/liteagents
+- **Issues:** https://github.com/hamr0/liteagents/issues
 
 ---
 
 ## 📄 License
 
-MIT © 2025 amrhas82
+MIT © 2025 hamr0
 
 ---
 
-**Need help?** Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) or [open an issue](https://github.com/amrhas82/liteagents/issues)
+**Need help?** Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) or [open an issue](https://github.com/hamr0/liteagents/issues)

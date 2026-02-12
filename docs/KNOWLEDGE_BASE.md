@@ -569,7 +569,7 @@ Create your own marketplace catalog:
   "plugins": [
     {
       "name": "liteagents-standard",
-      "source": "github:amrhas82/liteagents"
+      "source": "github:hamr0/liteagents"
     }
   ]
 }
@@ -580,7 +580,7 @@ Create your own marketplace catalog:
 Clone and link for development:
 
 ```bash
-git clone https://github.com/amrhas82/liteagents.git
+git clone https://github.com/hamr0/liteagents.git
 cd liteagents
 npm link
 ```
@@ -709,9 +709,9 @@ A: Agents are AI assistants with roles. Skills are executable tools agents can u
 
 ## Resources
 
-- **GitHub:** https://github.com/amrhas82/liteagents
+- **GitHub:** https://github.com/hamr0/liteagents
 - **npm:** https://www.npmjs.com/package/liteagents
-- **Issues:** https://github.com/amrhas82/liteagents/issues
+- **Issues:** https://github.com/hamr0/liteagents/issues
 - **Detailed Docs:**
   - [AGENTS.md](AGENTS.md) - Complete agent directory
   - [SKILLS.md](SKILLS.md) - Complete skill reference
@@ -724,4 +724,4 @@ A: Agents are AI assistants with roles. Skills are executable tools agents can u
 
 **Last Updated:** November 2025
 **Version:** 1.1.0
-**Maintainer:** amrhas82
+**Maintainer:** hamr0
